@@ -1,0 +1,23 @@
+{
+  "name": "phoenix-backend",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ./src/web.js"
+  },
+  "author": "stellarbears",
+  "dependencies": {
+    "apollo-server": "^2.3.3",
+    "bcryptjs": "^2.4.3",
+    "class-sanitizer": "^0.0.5",
+    "class-validator": "^0.10.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
+    "graphql": "^14.1.1",
+    "jsonwebtoken": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "sqlite3": "^4.1.0",
+    "type-graphql": "^0.17.5",
+    "typeorm": "^0.2.18",
+    "uuid": "^3.3.3"
+  }
+}

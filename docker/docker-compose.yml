@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  phoenix-backend:
+    image: phoenix-backend:latest
+    ports:
+    - "4000:4000"
+    environment:
+      NODE_ENV: "production"
+      REFRESH_SECRET: ${REFRESH_SECRET}
+      ACCESS_SECRET: ${ACCESS_SECRET}
+      GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
+      GRAPHQL_HOST: 0.0.0.0
+      GRAPHQL_PORT: ${GRAPHQL_PORT}
+    restart: always
+    volumes:
+    - .:/usr/app/src/data:z
+
+  phoenix-frontend:
+    depends_on:
+    - phoenix-backend
+    image: phoenix-frontend:latest
+    ports:
+    - "80:80"
+    environment:
+      REACT_APP_PLATFORM: "web"
+      REACT_APP_VERSION: ${VERSION}
+      REACT_APP_GRAPHQL_PORT: ${GRAPHQL_PORT}
+      REACT_APP_GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
+    restart: always

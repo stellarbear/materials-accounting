@@ -1,0 +1,65 @@
+{
+  "name": "phoenix",
+  "version": "1.1.2",
+  "main": "build/index.js",
+  "license": "MIT",
+  "author": "stellarbears",
+  "scripts": {
+    "electron": "yarn collect && yarn electron-builder && yarn clean",
+    "collect": "yarn build && yarn merge && yarn rename",
+    "clean": "yarn clean:frontend && yarn clean:backend && yarn rimraf ./build/",
+    "clean:frontend": "yarn rimraf ./frontend/build/",
+    "clean:backend": "yarn rimraf ./backend/build/",
+    "build": "yarn build:backend && yarn build:frontend",
+    "build:frontend": "cd ./frontend && yarn desktop:build",
+    "build:backend": "cd ./backend && yarn desktop:build",
+    "merge": "yarn merge:clean && yarn merge:frontend && yarn merge:backend",
+    "merge:clean": "rimraf build && mkdir build",
+    "merge:frontend": "cp -r ./frontend/build/* ./build/",
+    "merge:backend": "cp -r ./backend/build/* ./build/",
+    "rename": "cp ./build/desktop.js ./build/index.js"
+  },
+  "build": {
+    "electronVersion": "4.2.12",
+    "appId": "com.stellarbears.phoenix",
+    "productName": "Phoenix",
+    "copyright": "",
+    "files": [
+      "**/*",
+      "build/**/*",
+      "build/logo.png"
+    ],
+    "directories": {
+      "buildResources": "assets"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "./frontend/public/logo.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowElevation": true,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  },
+  "devDependencies": {
+    "electron-builder": "^20.28.4"
+  },
+  "dependencies": {
+    "apollo-server": "^2.9.3",
+    "bcryptjs": "^2.4.3",
+    "class-sanitizer": "^0.0.5",
+    "class-validator": "^0.10.0",
+    "cookie-parser": "^1.4.4",
+    "cross-env": "^6.0.3",
+    "electron-is-dev": "^1.1.0",
+    "graphql-transport-electron": "^1.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "reflect-metadata": "^0.1.13",
+    "rimraf": "^3.0.0",
+    "sqlite3": "^4.1.0",
+    "type-graphql": "^0.17.5",
+    "typeorm": "^0.2.18"
+  }
+}

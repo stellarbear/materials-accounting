@@ -1,0 +1,21 @@
+.ui.card.ts {
+    margin-bottom: 20px;
+}
+
+.ts__container {
+    min-height: 30%;
+}
+
+.ui.grid > .row.ts__sort {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.ts__sort h4.ui.header{
+    margin-bottom: 0;
+    padding: 4px;
+}
+
+.accordion.ui.kit  .title{
+    padding: 0;
+}
