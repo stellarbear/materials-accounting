@@ -3,6 +3,7 @@ frontend/build/
 backend/build/
 build
 dist
+*.tar
 
 # Logs
 logs
