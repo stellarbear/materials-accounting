@@ -80,6 +80,9 @@ export const server = async (schema: GraphQLSchema) => {
             credentials: true,
             origin: true
         },
+        bodyParserConfig: {
+            limit: '64mb'
+        },
         path: `/${endpoint}`,
     });
 
