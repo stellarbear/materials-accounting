@@ -5,7 +5,6 @@ COPY package.docker.build.json ./package.json
 RUN yarn install
 COPY ./tsconfig.json ./tsconfig.json
 COPY ./src ./src
-RUN yarn clear
 RUN yarn build
 
 FROM node:8-alpine as prod
@@ -16,6 +15,7 @@ RUN yarn install
 COPY ./tsconfig.json ./tsconfig.json
 
 FROM node:8-alpine
+ENV NODE_ENV="production"
 WORKDIR /usr/app
 COPY --from=prod /usr/app/node_modules /usr/app/node_modules
 COPY --from=prod /usr/app/package.json /usr/app/package.json

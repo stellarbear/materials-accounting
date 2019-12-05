@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
 import Management from "../components/Management";
+import info from '../../package.json';
 
 class Header extends Component {
   state = { activeItem: '' }
@@ -23,8 +24,8 @@ class Header extends Component {
       currentUsername = currentUser.username;
     }
 
-    const platform = window._env_.REACT_APP_PLATFORM || process.env.REACT_APP_PLATFORM || "web"
-    const version = window._env_.REACT_APP_VERSION || process.env.REACT_APP_VERSION || "1.x.x"
+    const platform = process.env.REACT_APP_PLATFORM || "web"
+    const version = info.version
 
     return (
       <Menu color='teal' attached className='navbar'>
@@ -60,55 +61,55 @@ class Header extends Component {
         </Menu.Item>
 
         {["admin"].includes(currentUser.role) && platform === "web" && (
-            <React.Fragment>
-              <Dropdown item trigger={<span><Icon name='book' />Справочники</span>}>
-                <Dropdown.Menu>
-                  <Dropdown.Item
-                    as={Link} to='/units'
-                    name='units'
-                    active={activeItem === 'units'}
-                    onClick={this.handleItemClick}
-                  >
-                    Список подразделений
+          <React.Fragment>
+            <Dropdown item trigger={<span><Icon name='book' />Справочники</span>}>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  as={Link} to='/units'
+                  name='units'
+                  active={activeItem === 'units'}
+                  onClick={this.handleItemClick}
+                >
+                  Список подразделений
             </Dropdown.Item>
-                  <Dropdown.Item
-                    as={Link} to='/types'
-                    name='types'
-                    active={activeItem === 'types'}
-                    onClick={this.handleItemClick}
-                  >
-                    Типы ТС
+                <Dropdown.Item
+                  as={Link} to='/types'
+                  name='types'
+                  active={activeItem === 'types'}
+                  onClick={this.handleItemClick}
+                >
+                  Типы ТС
             </Dropdown.Item>
-                  <Dropdown.Item
-                    as={Link} to='/purposes'
-                    name='purposes'
-                    active={activeItem === 'purposes'}
-                    onClick={this.handleItemClick}
-                  >
-                    Назначения ТС
+                <Dropdown.Item
+                  as={Link} to='/purposes'
+                  name='purposes'
+                  active={activeItem === 'purposes'}
+                  onClick={this.handleItemClick}
+                >
+                  Назначения ТС
             </Dropdown.Item>
-                  <Dropdown.Item
-                    as={Link} to='/info_types'
-                    name='info_types'
-                    active={activeItem === 'info_types'}
-                    onClick={this.handleItemClick}
-                  >
-                    Обрабатываемая информация
+                <Dropdown.Item
+                  as={Link} to='/info_types'
+                  name='info_types'
+                  active={activeItem === 'info_types'}
+                  onClick={this.handleItemClick}
+                >
+                  Обрабатываемая информация
             </Dropdown.Item>
-                  <Dropdown.Item
-                    as={Link} to='/tables'
-                    name='tables'
-                    active={activeItem === 'tables'}
-                    onClick={this.handleItemClick}
-                  >
-                    Табели
+                <Dropdown.Item
+                  as={Link} to='/tables'
+                  name='tables'
+                  active={activeItem === 'tables'}
+                  onClick={this.handleItemClick}
+                >
+                  Табели
             </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+              </Dropdown.Menu>
+            </Dropdown>
 
 
-            </React.Fragment>
-          )
+          </React.Fragment>
+        )
         }
         {["admin"].includes(currentUser.role) && (
           <Menu.Item

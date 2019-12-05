@@ -1,6 +1,7 @@
 {
   "name": "phoenix-frontend",
   "private": true,
+  "version": "1.1.4",
   "author": "kanmir",
   "homepage": "./",
   "build": {
@@ -41,7 +42,7 @@
     "start": "craco start",
     "build": "craco build",
     "env:web": "cross-env REACT_APP_PLATFORM=web",
-    "env:desktop": "cross-env REACT_APP_PLATFORM=desktop cross-env REACT_APP_VERSION=1.1.3",
+    "env:desktop": "cross-env REACT_APP_PLATFORM=desktop",
     "web:start": "yarn env:web && yarn start",
     "web:build": "yarn env:web && yarn build",
     "desktop:start": "cross-env BROWSER=none && yarn env:desktop && yarn start",

@@ -6,9 +6,8 @@ services:
     ports:
     - "4000:4000"
     environment:
-      NODE_ENV: "production"
-      REFRESH_SECRET: ${REFRESH_SECRET}
       ACCESS_SECRET: ${ACCESS_SECRET}
+      REFRESH_SECRET: ${REFRESH_SECRET}
       GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
       GRAPHQL_HOST: 0.0.0.0
       GRAPHQL_PORT: ${GRAPHQL_PORT}
@@ -22,9 +21,4 @@ services:
     image: phoenix-frontend:latest
     ports:
     - "80:80"
-    environment:
-      REACT_APP_PLATFORM: "web"
-      REACT_APP_VERSION: ${VERSION}
-      REACT_APP_GRAPHQL_PORT: ${GRAPHQL_PORT}
-      REACT_APP_GRAPHQL_ENDPOINT: ${GRAPHQL_ENDPOINT}
     restart: always

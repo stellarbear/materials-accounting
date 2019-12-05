@@ -1,6 +1,7 @@
 FROM node:alpine as prepare
 
 ENV NODE_ENV="production"
+ENV REACT_APP_PLATFORM="web"
 WORKDIR /usr/app
 
 COPY package.json .
@@ -13,4 +14,4 @@ WORKDIR /usr/share/nginx/html
 COPY --from=prepare /usr/app/build .
 EXPOSE 3000
 
-CMD ./runtime/env.sh && nginx -g 'daemon off;'
+CMD ["nginx", "-g", "daemon off;"]

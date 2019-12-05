@@ -2,7 +2,6 @@
   "name": "phoenix-backend",
   "license": "MIT",
   "scripts": {
-    "clear": "rimraf build",
     "build": "tsc"
   },
   "author": "stellarbears",
