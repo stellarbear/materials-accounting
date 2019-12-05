@@ -9,8 +9,8 @@ COPY . .
 RUN yarn web:build
 
 FROM nginx:1.12-alpine
-ENV REACT_APP_VERSION="1.1.2."
-COPY --from=prepare /usr/app/build /usr/share/nginx/html
+WORKDIR /usr/share/nginx/html
+COPY --from=prepare /usr/app/build .
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ./runtime/env.sh && nginx -g 'daemon off;'

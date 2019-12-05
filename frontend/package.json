@@ -41,11 +41,11 @@
     "start": "craco start",
     "build": "craco build",
     "env:web": "cross-env REACT_APP_PLATFORM=web",
-    "env:desktop": "cross-env REACT_APP_PLATFORM=desktop",
+    "env:desktop": "cross-env REACT_APP_PLATFORM=desktop cross-env REACT_APP_VERSION=1.1.3",
     "web:start": "yarn env:web && yarn start",
     "web:build": "yarn env:web && yarn build",
     "desktop:start": "cross-env BROWSER=none && yarn env:desktop && yarn start",
-    "desktop:build": "yarn env:desktop && yarn build"
+    "desktop:build": "yarn env:desktop yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"

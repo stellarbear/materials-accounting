@@ -13,8 +13,8 @@ import { onError } from "apollo-link-error"
 import { ApolloLink } from "apollo-boost";
 
 const host = window.location.hostname || "localhost";
-const port = process.env.REACT_APP_GRAPHQL_PORT || 4000;
-const endpoint = process.env.REACT_APP_GRAPHQL_ENDPOINT || "graphql";
+const port = window._env_.REACT_APP_GRAPHQL_PORT || process.env.REACT_APP_GRAPHQL_PORT || 4000;
+const endpoint = window._env_.REACT_APP_GRAPHQL_ENDPOINT || process.env.REACT_APP_GRAPHQL_ENDPOINT || "graphql";
 
 const httpLink = createHttpLink({
   uri: `http://${host}:${port}/${endpoint}`,

@@ -23,6 +23,9 @@ class Header extends Component {
       currentUsername = currentUser.username;
     }
 
+    const platform = window._env_.REACT_APP_PLATFORM || process.env.REACT_APP_PLATFORM || "web"
+    const version = window._env_.REACT_APP_VERSION || process.env.REACT_APP_VERSION || "1.x.x"
+
     return (
       <Menu color='teal' attached className='navbar'>
         <Menu.Item
@@ -32,7 +35,7 @@ class Header extends Component {
         >
           <img alt='logo' src='./logo.png' />
           <span style={{ paddingLeft: 16 }}>
-            {process.env.REACT_APP_VERSION}
+            {version}
           </span>
         </Menu.Item>
 
@@ -56,8 +59,7 @@ class Header extends Component {
           Отчет
         </Menu.Item>
 
-        {["admin"].includes(currentUser.role) &&
-          process.env.REACT_APP_PLATFORM === "web" && (
+        {["admin"].includes(currentUser.role) && platform === "web" && (
             <React.Fragment>
               <Dropdown item trigger={<span><Icon name='book' />Справочники</span>}>
                 <Dropdown.Menu>
