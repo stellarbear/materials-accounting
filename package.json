@@ -20,7 +20,7 @@
     "rename": "cp ./build/desktop.js ./build/index.js"
   },
   "build": {
-    "electronVersion": "4.2.12",
+    "electronVersion": "4.0.8",
     "appId": "com.stellarbears.phoenix",
     "productName": "Phoenix",
     "copyright": "",
@@ -33,7 +33,15 @@
       "buildResources": "assets"
     },
     "win": {
-      "target": "nsis",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ],
       "icon": "./frontend/public/logo.png"
     },
     "nsis": {
@@ -58,7 +66,7 @@
     "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "sqlite3": "^4.1.0",
+    "sqlite3": "^4.0.9",
     "type-graphql": "^0.17.5",
     "typeorm": "^0.2.18"
   }
