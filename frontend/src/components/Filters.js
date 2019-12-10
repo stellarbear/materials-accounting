@@ -97,6 +97,7 @@ class Filters extends React.Component {
 
   componentDidMount = () => {
     const filters = localStorage.getItem("filters");
+
     if (filters) {
       const newState = { ...JSON.parse(filters) };
       if (this.props.isReport) {
@@ -108,6 +109,10 @@ class Filters extends React.Component {
         this.fetchCount(newState);
       }
       this.props.searchClick({ ...omit(newState, ['stats', 'optionalFields', 'timerId', 'autoSearch']) })
+    } else {
+      if (!this.props.isReport) {
+        this.fetchCount();
+      }
     }
 
     this.fetchYears();
@@ -146,7 +151,7 @@ class Filters extends React.Component {
             <Checkbox
               label='Автоматический поиск'
               checked={this.state.autoSearch}
-              onChange={() => this.setState({ autoSearch: !this.state.autoSearch })}
+              onChange={() => this.updateState({ autoSearch: !this.state.autoSearch })}
             />
           </Form.Field>
           {!this.props.isReport && (<Form.Input
