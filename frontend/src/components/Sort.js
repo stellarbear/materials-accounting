@@ -6,6 +6,21 @@ class Sort extends React.Component {
     field: 'id',
     sortOrder: 1
   }
+
+  componentDidMount = () => {
+    const sort = localStorage.getItem("sort");
+    if (sort) {
+      const newState = { ...JSON.parse(sort) };
+      this.updateState(newState)
+    }
+  }
+
+  updateState = (newState) => {
+    this.setState({ ...newState });
+    this.props.onChange({ ...this.state, ...newState })
+    localStorage.setItem("sort", JSON.stringify({ ...this.state, ...newState }))
+  }
+
   render = () => {
     const options = [
       {
@@ -57,7 +72,8 @@ class Sort extends React.Component {
         content: 'Год вывода из эксплуатации',
       },
     ];
-    const { field, sortOrder } = this.state;
+    const { updateState, state } = this;
+    const { field, sortOrder } = state;
 
     return (
       <React.Fragment>
@@ -68,11 +84,7 @@ class Sort extends React.Component {
             options={options}
             value={field}
             id='sort'
-            onChange={(e, { value }) => {
-              this.setState({ field: value, sortOrder: 1 });
-              this.props.onChange({ field: value, sortOrder: 1 });
-            }
-            }
+            onChange={(e, { value }) => updateState({ field: value, sortOrder: 1 })}
           />
         </label>
 
@@ -80,14 +92,7 @@ class Sort extends React.Component {
           <Icon
             link
             name={(sortOrder === 1) ? 'sort amount up' : 'sort amount down'}
-            onClick={() => {
-              this.setState((prevState) => {
-                this.props.onChange({ field: prevState.field, sortOrder: -prevState.sortOrder });
-                return {
-                  sortOrder: -prevState.sortOrder
-                }
-              });
-            }}
+            onClick={() => updateState({ sortOrder: -state.sortOrder })}
           />
         )
         }

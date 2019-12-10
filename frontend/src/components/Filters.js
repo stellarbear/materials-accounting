@@ -57,12 +57,12 @@ class Filters extends React.Component {
     timerId: undefined
   };
 
-  fetchCount = async () => {
+  fetchCount = async (state = this.state) => {
     const { client } = this.props;
     try {
       const { data } = await client.query({
         query: TS_COUNT_QUERY,
-        variables: { filter: omit(this.state, ['stats', 'optionalFields', 'timerId', 'autoSearch']) }
+        variables: { filter: omit(state, ['stats', 'optionalFields', 'timerId', 'autoSearch']) }
       });
       const count = data.tsCount;
       await this.setState(prevState => {
@@ -96,15 +96,28 @@ class Filters extends React.Component {
   }
 
   componentDidMount = () => {
-    if (!this.props.isReport) {
-      this.fetchCount();
+    const filters = localStorage.getItem("filters");
+    if (filters) {
+      const newState = { ...JSON.parse(filters) };
+      if (this.props.isReport) {
+        newState.number = '';
+        newState.tsTypes = [];
+      }
+      this.setState(newState)
+      if (!this.props.isReport) {
+        this.fetchCount(newState);
+      }
+      this.props.searchClick({ ...omit(newState, ['stats', 'optionalFields', 'timerId', 'autoSearch']) })
     }
+
     this.fetchYears();
   }
 
   updateState = (newState) => {
     clearInterval(this.state.timerId)
-    this.setState(newState);
+    this.setState({ ...newState });
+
+    localStorage.setItem("filters", JSON.stringify({ ...this.state, ...newState }))
 
     if (this.state.autoSearch) {
       const timerId = setTimeout(() => {
@@ -113,6 +126,12 @@ class Filters extends React.Component {
       }, timerDuration)
 
       this.setState({ timerId });
+    }
+  }
+
+  componentWillUnmount = () => {
+    if (this.timerId) {
+      clearInterval(this.timerId);
     }
   }
 
