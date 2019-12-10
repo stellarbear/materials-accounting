@@ -5,6 +5,7 @@
   "license": "MIT",
   "author": "stellarbears",
   "scripts": {
+    "electron": "yarn electron-builder",
     "electron:64": "yarn collect && yarn electron-builder --x64 -w && yarn clean",
     "electron:32": "yarn collect && yarn electron-builder --ia32 -w && yarn clean",
     "collect": "yarn build && yarn merge && yarn rename",
@@ -21,7 +22,7 @@
     "rename": "cp ./build/desktop.js ./build/index.js"
   },
   "build": {
-    "electronVersion": "4.2.12",
+    "electronVersion": "5.0.6",
     "appId": "com.stellarbears.phoenix",
     "productName": "Phoenix",
     "copyright": "",
@@ -59,7 +60,7 @@
     "jsonwebtoken": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "sqlite3": "^4.0.9",
+    "sqlite3": "^4.0.1",
     "type-graphql": "^0.17.5",
     "typeorm": "^0.2.18"
   }
