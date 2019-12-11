@@ -161,7 +161,7 @@ export class TsResolver {
                     ...include({ unit }),
                 };
 
-                const ts = await di.tsRepo.findOne({ where })
+                const ts = await di.tsRepo.findOne({ where, relations })
                 return ts;
             }
         }
