@@ -103,7 +103,7 @@ class TsList extends Component {
         <Grid className='ts_page'>
           <Grid.Row className='ts__sort'>
             <Grid.Column width={4}>
-              {currentUser.role !== 'user' && (<Button as={Link} to='/ts/create' basic color='teal'>
+              {currentUser.role !== 'user' && (<Button as={Link} to='/ts/create' basic color='teal' style={{ width: "100%" }}>
                 <Icon name='plus' />
                 Добавить ТС
             </Button>)}

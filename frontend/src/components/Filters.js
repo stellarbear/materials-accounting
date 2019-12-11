@@ -32,29 +32,33 @@ export const TS_YEARS_RANGE_QUERY = gql`
       }
 `;
 
+const defaultState = {
+  number: '',
+  tsTypes: [],
+  tsPurposes: [],
+  infoTypes: [],
+  unit: {
+    id: null,
+    includeChildren: false
+  },
+  isBroken: undefined,
+  table: '',
+  tableItem: '',
+  receiptYear: {},
+  commissioningYear: {},
+  decommissionYear: {},
+  optionalFields: {
+    showCommissioningYear: false,
+    showDecommissionYear: false
+  },
+  timerId: undefined
+};
+
 class Filters extends React.Component {
   state = {
+    ...defaultState,
     autoSearch: false,
-    number: '',
-    tsTypes: [],
-    tsPurposes: [],
-    infoTypes: [],
-    unit: {
-      id: null,
-      includeChildren: false
-    },
-    isBroken: undefined,
-    receiptYear: {},
-    commissioningYear: {},
-    decommissionYear: {},
-    table: '',
-    tableItem: '',
     stats: {},
-    optionalFields: {
-      showCommissioningYear: false,
-      showDecommissionYear: false
-    },
-    timerId: undefined
   };
 
   fetchCount = async (state = this.state) => {
@@ -144,7 +148,15 @@ class Filters extends React.Component {
     return (
       <React.Fragment>
         <Header as='h3' dividing>
-          <Header.Content><Icon name='filter' size="small" />Фильтры</Header.Content>
+          <div style={{
+            display: "flex",
+            alignItems: "baseline",
+            justifyContent: "space-between",
+          }}>
+            <Icon name='filter' size="small" />
+            <span>Фильтры</span>
+            <Icon color="teal" name='close' style={{ cursor: "pointer" }} onClick={() => this.updateState(defaultState)} size="small" />
+          </div>
         </Header>
         <Form>
           <Form.Field>
