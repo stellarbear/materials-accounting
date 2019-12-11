@@ -395,6 +395,7 @@ class Management extends Component {
     }
 
     render = () => {
+        const platform = process.env.REACT_APP_PLATFORM || "web"
         const { state, onTSWipe, onConvert, onDBExport, onDictsExport, onTSImport, onTSExport, onUnitWipe, onDBImport, onUnitExport, onDBWipe, onDictsImport, onUnitImport, onModalClose, onModalSubmit } = this;
         const { showPortal, isNegative, message, importDBFileName, showMock, showModal, removeItem } = state;
         return (
@@ -433,40 +434,44 @@ class Management extends Component {
                             <Dropdown simple direction='right' item trigger={<span><Icon name='book' />Управление данными</span>}>
                                 <Dropdown.Menu>
                                     <Dropdown.Header>Экспорт</Dropdown.Header>
-                                    <Dropdown.Item onClick={onDictsExport}>
-                                        <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
-                                        <span>Справочники</span>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item disabled={!!!options.length}>
-                                        <i aria-hidden="true" className="angle left icon"></i>
-                                        <span>Подразделения (срез БД)</span>
-                                        <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
-                                            <div style={{ marginRight: -120 }}>
-                                                {options.map(o =>
-                                                    <Menu.Item
-                                                        onClick={() => onUnitExport(o)}
-                                                        key={`unit-export-${o.key}`}>
-                                                        {o.text}
-                                                    </Menu.Item>
-                                                )}
-                                            </div>
-                                        </Menu>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item disabled={!!!options.length}>
-                                        <i aria-hidden="true" className="angle left icon"></i>
-                                        <span>ТС (без справочников и подразделений)</span>
-                                        <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
-                                            <div style={{ marginRight: -120 }}>
-                                                {options.map(o =>
-                                                    <Menu.Item
-                                                        onClick={() => onTSExport(o)}
-                                                        key={`ts-export-${o.key}`}>
-                                                        {o.text}
-                                                    </Menu.Item>
-                                                )}
-                                            </div>
-                                        </Menu>
-                                    </Dropdown.Item>
+                                    {platform === "web" &&
+                                        <React.Fragment>
+                                            <Dropdown.Item onClick={onDictsExport}>
+                                                <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
+                                                <span>Справочники</span>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item disabled={!!!options.length}>
+                                                <i aria-hidden="true" className="angle left icon"></i>
+                                                <span>Подразделения (срез БД)</span>
+                                                <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
+                                                    <div style={{ marginRight: -120 }}>
+                                                        {options.map(o =>
+                                                            <Menu.Item
+                                                                onClick={() => onUnitExport(o)}
+                                                                key={`unit-export-${o.key}`}>
+                                                                {o.text}
+                                                            </Menu.Item>
+                                                        )}
+                                                    </div>
+                                                </Menu>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item disabled={!!!options.length}>
+                                                <i aria-hidden="true" className="angle left icon"></i>
+                                                <span>ТС (без справочников и подразделений)</span>
+                                                <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
+                                                    <div style={{ marginRight: -120 }}>
+                                                        {options.map(o =>
+                                                            <Menu.Item
+                                                                onClick={() => onTSExport(o)}
+                                                                key={`ts-export-${o.key}`}>
+                                                                {o.text}
+                                                            </Menu.Item>
+                                                        )}
+                                                    </div>
+                                                </Menu>
+                                            </Dropdown.Item>
+                                        </React.Fragment>
+                                    }
                                     <Dropdown.Item onClick={onDBExport}>
                                         <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
                                         <span>База данных</span>
@@ -482,33 +487,37 @@ class Management extends Component {
                                             />
                                         </React.Fragment>
                                     </Dropdown.Item>
-                                    <Dropdown.Item as="label" htmlFor="importUnit">
+                                    {platform === "web" &&
                                         <React.Fragment>
-                                            <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
-                                            <span>Подразделения (срез БД)</span>
-                                            <input hidden type="file" id="importUnit"
-                                                onChange={onUnitImport} value={importDBFileName}
-                                            />
+                                            <Dropdown.Item as="label" htmlFor="importUnit">
+                                                <React.Fragment>
+                                                    <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
+                                                    <span>Подразделения (срез БД)</span>
+                                                    <input hidden type="file" id="importUnit"
+                                                        onChange={onUnitImport} value={importDBFileName}
+                                                    />
+                                                </React.Fragment>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item disabled={!!!options.length}>
+                                                <i aria-hidden="true" className="angle left icon"></i>
+                                                <span>ТС (без справочников и подразделений)</span>
+                                                <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
+                                                    <div style={{ marginRight: -120 }}>
+                                                        {options.map(o =>
+                                                            <Menu.Item
+                                                                key={`ts-import-${o.key}`}
+                                                                as="label" htmlFor={`importTS-${o.key}`}>
+                                                                {o.text}
+                                                                <input hidden type="file" id={`importTS-${o.key}`}
+                                                                    onChange={(e) => onTSImport(e, o)} value={importDBFileName}
+                                                                />
+                                                            </Menu.Item>
+                                                        )}
+                                                    </div>
+                                                </Menu>
+                                            </Dropdown.Item>
                                         </React.Fragment>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item disabled={!!!options.length}>
-                                        <i aria-hidden="true" className="angle left icon"></i>
-                                        <span>ТС (без справочников и подразделений)</span>
-                                        <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
-                                            <div style={{ marginRight: -120 }}>
-                                                {options.map(o =>
-                                                    <Menu.Item
-                                                        key={`ts-import-${o.key}`}
-                                                        as="label" htmlFor={`importTS-${o.key}`}>
-                                                        {o.text}
-                                                        <input hidden type="file" id={`importTS-${o.key}`}
-                                                            onChange={(e) => onTSImport(e, o)} value={importDBFileName}
-                                                        />
-                                                    </Menu.Item>
-                                                )}
-                                            </div>
-                                        </Menu>
-                                    </Dropdown.Item>
+                                    }
                                     <Dropdown.Item as="label" htmlFor="importDB">
                                         <React.Fragment>
                                             <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
@@ -555,35 +564,39 @@ class Management extends Component {
                                         <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
                                         <span>База данных</span>
                                     </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Header>Конвертация</Dropdown.Header>
-                                    <Dropdown.Item as="label" htmlFor="convertDB">
+                                    {platform === "web" &&
                                         <React.Fragment>
-                                            <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
-                                            <span>База данных</span>
-                                            <input hidden type="file" id="convertDB"
-                                                onChange={(e) => onConvert(e, "db")} value={importDBFileName}
-                                            />
+                                            <Dropdown.Divider />
+                                            <Dropdown.Header>Конвертация</Dropdown.Header>
+                                            <Dropdown.Item as="label" htmlFor="convertDB">
+                                                <React.Fragment>
+                                                    <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
+                                                    <span>База данных</span>
+                                                    <input hidden type="file" id="convertDB"
+                                                        onChange={(e) => onConvert(e, "db")} value={importDBFileName}
+                                                    />
+                                                </React.Fragment>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item as="label" htmlFor="convertDicts">
+                                                <React.Fragment>
+                                                    <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
+                                                    <span>Справочники</span>
+                                                    <input hidden type="file" id="convertDicts"
+                                                        onChange={(e) => onConvert(e, "dicts")} value={importDBFileName}
+                                                    />
+                                                </React.Fragment>
+                                            </Dropdown.Item>
+                                            <Dropdown.Item as="label" htmlFor="convertTS">
+                                                <React.Fragment>
+                                                    <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
+                                                    <span>Подразделения</span>
+                                                    <input hidden type="file" id="convertTS"
+                                                        onChange={(e) => onConvert(e, "ts")} value={importDBFileName}
+                                                    />
+                                                </React.Fragment>
+                                            </Dropdown.Item>
                                         </React.Fragment>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item as="label" htmlFor="convertDicts">
-                                        <React.Fragment>
-                                            <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
-                                            <span>Справочники</span>
-                                            <input hidden type="file" id="convertDicts"
-                                                onChange={(e) => onConvert(e, "dicts")} value={importDBFileName}
-                                            />
-                                        </React.Fragment>
-                                    </Dropdown.Item>
-                                    <Dropdown.Item as="label" htmlFor="convertTS">
-                                        <React.Fragment>
-                                            <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
-                                            <span>Подразделения</span>
-                                            <input hidden type="file" id="convertTS"
-                                                onChange={(e) => onConvert(e, "ts")} value={importDBFileName}
-                                            />
-                                        </React.Fragment>
-                                    </Dropdown.Item>
+                                    }
                                 </Dropdown.Menu>
                             </Dropdown>)
                     }}
