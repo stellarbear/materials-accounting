@@ -21,4 +21,4 @@ services:
     image: phoenix-frontend:latest
     ports:
     - "80:80"
-    restart: no
+    restart: "no"
