@@ -112,30 +112,12 @@ export class TsResolver {
         const where = await this.buildWhere(filter, id);
 
         const response = await di.tsRepo.find({
+            order: sort ? { [sort.field]: sort.sortOrder } : { "id": "ASC" },
             where,
             take,
             skip,
             relations,
         });
-
-        if (sort) {
-            switch (sort.field) {
-                case "id":
-                case "receiptYear":
-                case "commissioningYear":
-                case "decommissionYear":
-                    return response.sort((a: any, b: any) => (a[sort.field] || "").localeCompare(b[sort.field] || "") * sort.sortOrder)
-
-                case "tsType":
-                case "tsPurpose":
-                case "infoType":
-                case "unit":
-                    return response.sort((a: any, b: any) => (a[sort.field].id).localeCompare(b[sort.field].id) * sort.sortOrder)
-
-                default:
-                    return response;
-            }
-        }
 
         return response;
     }
