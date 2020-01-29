@@ -140,6 +140,8 @@ export class ManagementResolver {
                 data.ts = data.ts.map((ts: any) => (
                     {
                         number: ts.number,
+                        comment: ts.comment || '',
+                        responsible: ts.responsible || '',
                         unit: data.unit.name,
                         tsType: getById(data.tsTypes, ts.tsType),
                         tsPurpose: getById(data.tsPurposes, ts.tsPurpose),

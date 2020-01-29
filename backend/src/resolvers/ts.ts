@@ -38,6 +38,9 @@ class SearchInput {
     @Field({ nullable: true })
     isBroken: boolean;
 
+    @Field()
+    responsible: string;
+
     @Field(type => [String])
     tsTypes: string[]
 
@@ -214,6 +217,8 @@ export class TsResolver {
         @Arg('table') table: string,
         @Arg('tableItem') tableItem: string,
         @Arg('isBroken') isBroken: boolean,
+        @Arg('responsible') responsible: string,
+        @Arg('comment') comment: string,
         @Arg('complectation', type => [String]) complectation: [string]
     ): Promise<Ts> {
         if (await di.tsRepo.checkIfExist({ number })) {
@@ -227,6 +232,8 @@ export class TsResolver {
             receiptYear,
             commissioningYear,
             decommissionYear,
+            responsible,
+            comment,
             unit: await di.unitRepo.getById(unit),
             tsType: await di.tsTypeRepo.getById(tsType),
             tsPurpose: await di.tsPurposeRepo.getById(tsPurpose),
@@ -252,6 +259,8 @@ export class TsResolver {
         @Arg('commissioningYear', { nullable: true }) commissioningYear: string,
         @Arg('decommissionYear', { nullable: true }) decommissionYear: string,
         @Arg('table') table: string,
+        @Arg('responsible') responsible: string,
+        @Arg('comment') comment: string,
         @Arg('tableItem') tableItem: string,
         @Arg('isBroken') isBroken: boolean,
         @Arg('complectation', type => [String]) complectation: [string]
@@ -266,6 +275,8 @@ export class TsResolver {
             receiptYear,
             commissioningYear,
             decommissionYear,
+            responsible,
+            comment,
             unit: await di.unitRepo.getById(unit),
             tsType: await di.tsTypeRepo.getById(tsType),
             tsPurpose: await di.tsPurposeRepo.getById(tsPurpose),
@@ -279,7 +290,9 @@ export class TsResolver {
     }
 
     buildWhere = async (filter: SearchInput, userId: string) => {
-        const { number,
+        const {
+            number,
+            responsible,
             unit: { id: unitId, includeChildren: unitChildren },
             isBroken,
             tsTypes: tsType,
@@ -307,7 +320,7 @@ export class TsResolver {
 
 
         const where = {
-            ...like({ number }),
+            ...like({ number, responsible }),
             ...include({ tsPurpose, infoType, unit, tsType }),
             ...set({ isBroken, table, tableItem }),
             ...between({ receiptYear, commissioningYear, decommissionYear }, "start", "end")

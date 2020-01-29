@@ -23,6 +23,14 @@ export class Ts extends Base {
     @ManyToOne(type => Unit, { onDelete: 'CASCADE' })
     unit: Unit;
 
+    @Field({ defaultValue: '' })
+    @Column({ default: '' })
+    responsible: string;
+
+    @Field({ defaultValue: '' })
+    @Column({ default: '' })
+    comment: string;
+
     @Field()
     @ManyToOne(type => InfoType, { onDelete: 'CASCADE' })
     infoType: InfoType;

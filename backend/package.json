@@ -9,7 +9,8 @@
     "web:start": "ts-node-dev ./src/web.ts",
     "desktop:build": "yarn clean && tsc",
     "desktop:start": "wait-on http://localhost:3000 && yarn desktop:build && electron ./build/desktop.js",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "cli": "ts-node ./node_modules/typeorm/cli -f ./src/ormconfig.ts"
   },
   "author": "stellarbears",
   "dependencies": {
