@@ -50,6 +50,9 @@ export default class DropdownTsTypes extends React.Component {
               text: el.name
             }
           });
+          options.sort((a, b) => {
+            return a.text < b.text ? -1 : 1;
+          });
           return (
             <Dropdown
               name={this.props.name}
