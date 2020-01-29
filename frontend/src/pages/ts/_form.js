@@ -25,6 +25,8 @@ class TsForm extends React.Component {
     tableItem: '',
     isBroken: false,
     complectation: [],
+    responsible: '',
+    comment: '',
     loading: false,
     errors: {},
     showPortal: false
@@ -58,6 +60,8 @@ class TsForm extends React.Component {
         table: ts.table.id,
         tableItem: ts.tableItem.id,
         isBroken: ts.isBroken,
+        responsible: ts.responsible,
+        comment: ts.comment,
         complectation: complectation,
       });
     }
@@ -282,6 +286,8 @@ class TsForm extends React.Component {
     const { isNewRecord } = this.props;
     const {
       number,
+      responsible,
+      comment,
       isBroken,
       unit,
       tsType,
@@ -303,18 +309,31 @@ class TsForm extends React.Component {
           autoComplete='off'
         >
           <Segment color='teal'>
-            <Form.Input
-              required
-              error={this.state.errors.number && this.state.errors.number !== ''}
-              label='Инвентарный номер'
-              fluid icon='hashtag'
-              iconPosition='left'
-              placeholder='Инв. номер'
-              name='number'
-              value={number}
-              onChange={this.handleChange}
-              onBlur={() => { this.setState({ number: number.trim() }) }}
-            />
+            <Form.Group widths='equal'>
+              <Form.Input
+                required
+                error={this.state.errors.number && this.state.errors.number !== ''}
+                label='Инвентарный номер'
+                fluid icon='hashtag'
+                iconPosition='left'
+                placeholder='Инв. номер'
+                name='number'
+                value={number}
+                onChange={this.handleChange}
+                onBlur={() => { this.setState({ number: number.trim() }) }}
+              />
+              <Form.Input
+                error={this.state.errors.responsible && this.state.errors.responsible !== ''}
+                label='Ответственный за эксплуатацию'
+                fluid icon='user'
+                iconPosition='left'
+                placeholder='Ответственный за эксплуатацию'
+                name='responsible'
+                value={responsible}
+                onChange={(event, data) => this.handleChange(event, { name: data.name, value: data.value.replace(/[^А-Яа-я.\s]/g, '') })}
+                onBlur={() => { this.setState({ responsible: responsible.trim() }) }}
+              />
+            </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field
                 error={this.state.errors.unit && this.state.errors.unit !== ''}
@@ -404,6 +423,17 @@ class TsForm extends React.Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
+            <Form.Input
+              error={this.state.errors.comment && this.state.errors.comment !== ''}
+              label='Комментарий'
+              fluid icon='terminal'
+              iconPosition='left'
+              placeholder='Дополнительная информация о ТС'
+              name='comment'
+              value={comment}
+              onChange={this.handleChange}
+              onBlur={() => { this.setState({ comment: comment.trim() }) }}
+            />
             <Form.Group widths='equal'>
               <DropdownTables
                 required

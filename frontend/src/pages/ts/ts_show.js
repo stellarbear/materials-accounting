@@ -18,6 +18,8 @@ export const TS_QUERY = gql`
       infoType { id name }
       receiptYear
       isBroken
+      responsible
+      comment
       commissioningYear
       decommissionYear
       tsPurpose { id name }

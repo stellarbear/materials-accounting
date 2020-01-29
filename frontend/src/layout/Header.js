@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
 import Management from "../components/Management";
-import info from '../../package.json';
+//import info from '../../package.json';
 
 class Header extends Component {
   state = { activeItem: '' }
@@ -25,7 +25,7 @@ class Header extends Component {
     }
 
     const platform = process.env.REACT_APP_PLATFORM || "web"
-    const version = "1.1.8" // info.version
+    const version = "1.2.0" // info.version
 
     return (
       <Menu color='teal' attached className='navbar'>

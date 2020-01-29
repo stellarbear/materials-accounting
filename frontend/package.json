@@ -19,6 +19,16 @@
       "icon": "assets/app.ico"
     }
   },
+  "scripts": {
+    "start": "craco start",
+    "build": "craco build",
+    "env:web": "cross-env REACT_APP_PLATFORM=web",
+    "env:desktop": "cross-env REACT_APP_PLATFORM=desktop",
+    "web:start": "yarn env:web && yarn start",
+    "web:build": "yarn env:web && yarn build",
+    "desktop:start": "cross-env BROWSER=none && yarn env:desktop && yarn start",
+    "desktop:build": "yarn env:desktop yarn build"
+  },
   "dependencies": {
     "@craco/craco": "^5.6.2",
     "apollo-boost": "^0.4.4",
@@ -36,16 +46,6 @@
     "semantic-ui-less": "^2.4.1",
     "semantic-ui-react": "^0.88.0",
     "cross-env": "^5.2.0"
-  },
-  "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "env:web": "cross-env REACT_APP_PLATFORM=web",
-    "env:desktop": "cross-env REACT_APP_PLATFORM=desktop",
-    "web:start": "yarn env:web && yarn start",
-    "web:build": "yarn env:web && yarn build",
-    "desktop:start": "cross-env BROWSER=none && yarn env:desktop && yarn start",
-    "desktop:build": "yarn env:desktop yarn build"
   },
   "eslintConfig": {
     "extends": "react-app"

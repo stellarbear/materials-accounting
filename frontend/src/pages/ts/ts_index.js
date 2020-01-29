@@ -20,6 +20,8 @@ export const ALL_TS_QUERY = gql`
           infoType { id name }
           receiptYear
           isBroken
+          responsible
+          comment
           commissioningYear
           decommissionYear
           tsPurpose { id name }
@@ -63,10 +65,12 @@ class TsList extends Component {
         id: null,
         includeChildren: false
       },
+      responsible: '',
       tsTypes: [],
       tsPurposes: [],
       infoTypes: [],
       isBroken: undefined,
+      //responsible: '',
       receiptYear: {},
     }
   };

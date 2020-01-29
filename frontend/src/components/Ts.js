@@ -14,6 +14,31 @@ class Ts extends Component {
           limit={150}
           text={`${ts.table.name}, ${ts.tableItem.name}`}
         />
+        <br />
+        <b>Отв. за эксплуатацию: </b>
+        {ts.responsible.length === 0
+          ? <span>-</span>
+          : <StringLimit
+            limit={150}
+            text={`${ts.responsible}`}
+          />
+        }
+        <br />
+        {
+          ts.comment.length > 0
+            ? (
+              <React.Fragment>
+                <b>Комментарий: </b>
+                <Popup
+                  trigger={<Icon name='comment' color='teal' />}
+                  content={ts.comment}
+                  wide='very'
+                  position='bottom left'
+                />
+              </React.Fragment>
+            )
+            : null
+        }
       </p>
     );
   };
@@ -32,7 +57,7 @@ class Ts extends Component {
         return unit.replace(/тделение$/, 'тделения');
       });
     }
-    
+
     const unitFullName = unitFullPath.reverse().join(' ');
     const currentUser = JSON.parse(localStorage.getItem('user'));
     return (

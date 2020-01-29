@@ -43,6 +43,7 @@ const defaultState = {
   },
   isBroken: undefined,
   table: '',
+  responsible: '',
   tableItem: '',
   receiptYear: {},
   commissioningYear: {},
@@ -200,6 +201,14 @@ class Filters extends React.Component {
               />
             </Form.Field>
           )}
+          <Form.Input
+            label='Ответственный за эксплуатацию'
+            fluid icon='user'
+            iconPosition='left'
+            placeholder='Отв. за эксплуатацию'
+            value={this.state.responsible}
+            onChange={(e, { name, value }) => this.updateState({ responsible: value, })}
+          />
           {!this.props.isReport && (<Form.Field
             name='tsType'
             label={{

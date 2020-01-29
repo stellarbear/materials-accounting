@@ -20,6 +20,8 @@ export const UPDATE_TS_MUTATION = gql`
     $commissioningYear: String,
     $decommissionYear: String,
     $table: String!,
+    $responsible: String!,
+    $comment: String!,
     $tableItem: String!,
     $isBroken: Boolean!,
     $complectation: [String!]!
@@ -31,6 +33,8 @@ export const UPDATE_TS_MUTATION = gql`
       tsType: $tsType,
       tsPurpose: $tsPurpose,
       infoType: $infoType,
+      responsible: $responsible,
+      comment: $comment,
       receiptYear: $receiptYear,
       commissioningYear: $commissioningYear,
       decommissionYear: $decommissionYear,
@@ -83,13 +87,12 @@ class TsUpdate extends React.Component {
                 <Breadcrumb.Divider icon='right angle' />
                 <Breadcrumb.Section active>{`${ts.tsType.name} №${ts.number}`}</Breadcrumb.Section>
               </Breadcrumb>
-              <Grid>
-                <Grid.Row >
-                  <Grid.Column width={3}></Grid.Column>
-                  <Grid.Column width={10}>
+
+              <Grid centered>
+                <Grid.Row centered columns={1}>
+                  <Grid.Column style={{ maxWidth: 800 }}>
                     <TsForm isNewRecord={false} mutation={UPDATE_TS_MUTATION} ts={ts} />
                   </Grid.Column>
-                  <Grid.Column></Grid.Column>
                 </Grid.Row>
               </Grid>
             </React.Fragment>

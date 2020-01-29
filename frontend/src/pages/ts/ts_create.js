@@ -17,6 +17,8 @@ export const CREATE_TS_MUTATION = gql`
     $table: String!,
     $tableItem: String!,
     $isBroken: Boolean!,
+    $responsible: String!,
+    $comment: String!,
     $complectation: [String!]!
   ) {
     createTS(
@@ -26,6 +28,8 @@ export const CREATE_TS_MUTATION = gql`
       tsPurpose: $tsPurpose,
       infoType: $infoType,
       receiptYear: $receiptYear,
+      responsible: $responsible,
+      comment: $comment,
       commissioningYear: $commissioningYear,
       decommissionYear: $decommissionYear,
       table: $table,
@@ -62,13 +66,11 @@ class TsCreate extends React.Component {
           <Breadcrumb.Divider icon='right angle' />
           <Breadcrumb.Section active>Добавить</Breadcrumb.Section>
         </Breadcrumb>
-        <Grid>
-          <Grid.Row >
-            <Grid.Column width={3}></Grid.Column>
-            <Grid.Column width={10}>
+        <Grid centered>
+          <Grid.Row centered columns={1}>
+            <Grid.Column style={{ maxWidth: 800 }}>
               <TsForm isNewRecord={true} mutation={CREATE_TS_MUTATION} />
             </Grid.Column>
-            <Grid.Column></Grid.Column>
           </Grid.Row>
         </Grid>
       </React.Fragment>
