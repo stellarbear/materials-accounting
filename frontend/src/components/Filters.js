@@ -104,7 +104,7 @@ class Filters extends React.Component {
     const filters = localStorage.getItem("filters");
 
     if (filters) {
-      const newState = { ...JSON.parse(filters) };
+      const newState = { ...defaultState, ...JSON.parse(filters) };
       if (this.props.isReport) {
         newState.number = '';
         newState.tsTypes = [];

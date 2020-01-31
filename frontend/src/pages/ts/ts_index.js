@@ -70,7 +70,6 @@ class TsList extends Component {
       tsPurposes: [],
       infoTypes: [],
       isBroken: undefined,
-      //responsible: '',
       receiptYear: {},
     }
   };
@@ -150,6 +149,9 @@ class TsList extends Component {
                 }}
               >
                 {({ loading, error, data }) => {
+                  debugger;
+                  console.log(this.state)
+                  console.log(this.state.filter.responsible)
                   if (loading) {
                     return (
                       <Loader />

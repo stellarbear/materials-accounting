@@ -25,7 +25,7 @@ class Header extends Component {
     }
 
     const platform = process.env.REACT_APP_PLATFORM || "web"
-    const version = "1.2.0" // info.version
+    const version = "1.2.1" // info.version
 
     return (
       <Menu color='teal' attached className='navbar'>
