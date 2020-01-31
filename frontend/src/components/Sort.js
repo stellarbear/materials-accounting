@@ -10,7 +10,7 @@ class Sort extends React.Component {
   componentDidMount = () => {
     const sort = localStorage.getItem("sort");
     if (sort) {
-      const newState = { ...state, ...JSON.parse(sort) };
+      const newState = { ...this.state, ...JSON.parse(sort) };
       this.updateState(newState)
     }
   }
