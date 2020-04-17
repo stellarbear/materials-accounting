@@ -67,6 +67,10 @@ export class Ts extends Base {
     isBroken: boolean
 
     @Field()
+    @Column({ default: false })
+    isPrivate: boolean
+
+    @Field()
     @ManyToOne(type => TsPurpose, { onDelete: 'CASCADE' })
     tsPurpose: TsPurpose;
 }

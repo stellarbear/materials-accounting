@@ -38,6 +38,9 @@ class SearchInput {
     @Field({ nullable: true })
     isBroken: boolean;
 
+    @Field({ nullable: true })
+    isPrivate: boolean;
+
     @Field()
     responsible: string;
 
@@ -217,6 +220,7 @@ export class TsResolver {
         @Arg('table') table: string,
         @Arg('tableItem') tableItem: string,
         @Arg('isBroken') isBroken: boolean,
+        @Arg('isPrivate') isPrivate: boolean,
         @Arg('responsible') responsible: string,
         @Arg('comment') comment: string,
         @Arg('complectation', type => [String]) complectation: [string]
@@ -229,6 +233,7 @@ export class TsResolver {
         await ts.extend({
             number,
             isBroken,
+            isPrivate,
             receiptYear,
             commissioningYear,
             decommissionYear,
@@ -263,6 +268,7 @@ export class TsResolver {
         @Arg('comment') comment: string,
         @Arg('tableItem') tableItem: string,
         @Arg('isBroken') isBroken: boolean,
+        @Arg('isPrivate') isPrivate: boolean,
         @Arg('complectation', type => [String]) complectation: [string]
     ): Promise<Ts> {
         if (await di.tsRepo.checkIfExistAndNotTheSame({ number }, id)) {
@@ -272,6 +278,7 @@ export class TsResolver {
         await ts.extend({
             number,
             isBroken,
+            isPrivate,
             receiptYear,
             commissioningYear,
             decommissionYear,
@@ -295,6 +302,7 @@ export class TsResolver {
             responsible,
             unit: { id: unitId, includeChildren: unitChildren },
             isBroken,
+            isPrivate,
             tsTypes: tsType,
             infoTypes: infoType,
             tsPurposes: tsPurpose,
@@ -322,7 +330,7 @@ export class TsResolver {
         const where = {
             ...like({ number, responsible }),
             ...include({ tsPurpose, infoType, unit, tsType }),
-            ...set({ isBroken, table, tableItem }),
+            ...set({ isBroken, table, tableItem, isPrivate }),
             ...between({ receiptYear, commissioningYear, decommissionYear }, "start", "end")
         };
 

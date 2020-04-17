@@ -24,6 +24,7 @@ class TsForm extends React.Component {
     table: '',
     tableItem: '',
     isBroken: false,
+    isPrivate: false,
     complectation: [],
     responsible: '',
     comment: '',
@@ -60,6 +61,7 @@ class TsForm extends React.Component {
         table: ts.table.id,
         tableItem: ts.tableItem.id,
         isBroken: ts.isBroken,
+        isPrivate: ts.isPrivate,
         responsible: ts.responsible,
         comment: ts.comment,
         complectation: complectation,
@@ -289,6 +291,7 @@ class TsForm extends React.Component {
       responsible,
       comment,
       isBroken,
+      isPrivate,
       unit,
       tsType,
       infoType,
@@ -457,6 +460,14 @@ class TsForm extends React.Component {
                 label={isBroken ? 'Неисправен' : 'Исправен'}
                 checked={!isBroken}
                 onChange={() => this.setState({ isBroken: !isBroken })}
+              />
+            </Form.Field>
+            <Form.Field>
+              <Checkbox
+                toggle
+                label={isPrivate ? 'Для внутреннего использования' : 'Публичный (экспортируемый)'}
+                checked={!isPrivate}
+                onChange={() => this.setState({ isPrivate: !isPrivate })}
               />
             </Form.Field>
 

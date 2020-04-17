@@ -24,6 +24,7 @@ export const UPDATE_TS_MUTATION = gql`
     $comment: String!,
     $tableItem: String!,
     $isBroken: Boolean!,
+    $isPrivate: Boolean!,
     $complectation: [String!]!
   ) {
     updateTS(
@@ -41,6 +42,7 @@ export const UPDATE_TS_MUTATION = gql`
       table: $table,
       tableItem: $tableItem,
       isBroken: $isBroken,
+      isPrivate: $isPrivate,
       complectation: $complectation) {
         id
         unit { id name parent { id name } fullPath }
@@ -49,6 +51,7 @@ export const UPDATE_TS_MUTATION = gql`
         infoType { id name }
         receiptYear
         isBroken
+        isPrivate
         commissioningYear
         decommissionYear
         tsPurpose { id name }

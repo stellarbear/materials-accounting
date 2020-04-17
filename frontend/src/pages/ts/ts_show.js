@@ -18,6 +18,7 @@ export const TS_QUERY = gql`
       infoType { id name }
       receiptYear
       isBroken
+      isPrivate
       responsible
       comment
       commissioningYear

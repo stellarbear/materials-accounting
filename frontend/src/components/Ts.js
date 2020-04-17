@@ -136,22 +136,51 @@ class Ts extends Component {
             </Grid.Row>
           </Grid>
         </Card.Content>
-        {currentUser.role !== 'user' && (<Card.Content extra>
-          <Button
-            as={Link}
-            to={`/ts/update/${ts.id}`}
-            basic
-            color='teal'
-            icon
-            labelPosition='left'>
-            <Icon name='edit outline' color='teal' />
-            Изменить
+        {currentUser.role !== 'user' && (<Card.Content extra
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+            <div>
+              <Button
+                basic
+                as={Link}
+                to={`/ts/update/${ts.id}`}
+                color='teal'
+                icon
+                labelPosition='left'>
+                <Icon name='edit alternate outline' />
+                Изменить
             </Button>
-          <Button basic color='red' icon labelPosition='right' onClick={this.props.handleDelete}>
-            Удалить
+              <Button
+                basic color='red' icon labelPosition='right' onClick={this.props.handleDelete}>
+                Удалить
               <Icon name='trash alternate outline' />
-          </Button>
-        </Card.Content>)}
+              </Button>
+            </div>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: "flex-end" }}>
+              {
+                ts.isBroken &&
+                <div style={{ display: 'flex' }}>
+                  Неисправен
+                <div style={{
+                    minWidth: 14, minHeight: 14, margin: "4px 8px", borderRadius: 4,
+                    backgroundColor: "#f44336"
+                  }}></div>
+                </div>
+              }
+              {
+                ts.isPrivate &&
+                <div style={{ display: 'flex' }}>
+                  Для внутреннего использования
+                <div style={{
+                    minWidth: 14, minHeight: 14, margin: "4px 8px", borderRadius: 4,
+                    backgroundColor: "#009688"
+                  }}></div>
+                </div>
+              }
+            </div>
+          </div>
+        </Card.Content>)
+        }
       </Card>
     );
   };

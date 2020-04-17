@@ -242,6 +242,39 @@ class Filters extends React.Component {
             onChange={(e, { value }) => this.updateState({ infoTypes: value })}
           />
           <Form.Field className='radio-group'>
+            <label>Тип записи:</label>
+          </Form.Field>
+          <Form.Field className='radio-group'>
+            <Checkbox
+              radio
+              label='Любое'
+              name='checkboxRadioGroup'
+              value={undefined}
+              checked={this.state.isPrivate === undefined}
+              onChange={(e, { value }) => this.updateState({ isPrivate: value })}
+            />
+          </Form.Field>
+          <Form.Field className='radio-group'>
+            <Checkbox
+              radio
+              label='Публичный (экспортируемый)'
+              name='checkboxRadioGroup'
+              value={"false"}
+              checked={this.state.isPrivate === false}
+              onChange={(e, { value }) => value === "false" && this.updateState({ isPrivate: false })}
+            />
+          </Form.Field>
+          <Form.Field>
+            <Checkbox
+              radio
+              label='Для внутреннего использования'
+              name='checkboxRadioGroup'
+              value={"true"}
+              checked={this.state.isPrivate === true}
+              onChange={(e, { value }) => value === "true" && this.updateState({ isPrivate: true })}
+            />
+          </Form.Field>
+          <Form.Field className='radio-group'>
             <label>Состояние ТС:</label>
           </Form.Field>
           <Form.Field className='radio-group'>

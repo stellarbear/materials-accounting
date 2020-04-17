@@ -248,7 +248,7 @@ export class ManagementResolver {
     @UseMiddleware(isAuthenticatedByRole(["admin"]))
     async exportDB() {
         const response = {
-            ts: await di.tsRepo.getAll(),
+            ts: (await di.tsRepo.getAll()).filter(e => e.isPrivate === false),
             tsTypes: await di.tsTypeRepo.getAll(),
             infoTypes: await di.infoTypeRepo.getAll(),
             tables: await di.tableRepo.getAll(),
@@ -272,6 +272,7 @@ export class ManagementResolver {
 
         const where = {
             ...include({ unit }),
+            isPrivate: false,
         };
 
         const response = {
@@ -293,6 +294,7 @@ export class ManagementResolver {
 
         const where = {
             ...include({ unit }),
+            isPrivate: false,
         };
 
         const response = {
@@ -438,7 +440,7 @@ export class ManagementResolver {
         await save(TableItem, tableItems);
         await save(Ts, await Promise.all(
             ts.map(async (t: any) =>
-                ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation) }))));
+                ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: false }))));
 
         for (let userId in userMap) {
             const u = await di.userRepo.getById(userId);
@@ -551,7 +553,7 @@ export class ManagementResolver {
         await mergeConditional(Ts,
             await Promise.all(
                 ts.map(async (t: any) =>
-                    ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation) }))),
+                    ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: false }))),
             "unit");
 
         return time;
@@ -625,7 +627,7 @@ export class ManagementResolver {
         await mergeConditional(Ts,
             await Promise.all(
                 ts.map(async (t: any) =>
-                    ({ ...t, unit: id, complectation: await di.tsTypeRepo.findByIds(t.complectation) }))),
+                    ({ ...t, unit: id, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: false }))),
             "unit");
 
         return time;

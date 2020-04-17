@@ -20,6 +20,7 @@ export const ALL_TS_QUERY = gql`
           infoType { id name }
           receiptYear
           isBroken
+          isPrivate
           responsible
           comment
           commissioningYear
@@ -70,6 +71,7 @@ class TsList extends Component {
       tsPurposes: [],
       infoTypes: [],
       isBroken: undefined,
+      isPrivate: undefined,
       receiptYear: {},
     }
   };
@@ -149,9 +151,6 @@ class TsList extends Component {
                 }}
               >
                 {({ loading, error, data }) => {
-                  debugger;
-                  console.log(this.state)
-                  console.log(this.state.filter.responsible)
                   if (loading) {
                     return (
                       <Loader />

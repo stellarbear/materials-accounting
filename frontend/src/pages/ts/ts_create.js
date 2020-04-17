@@ -16,6 +16,7 @@ export const CREATE_TS_MUTATION = gql`
     $decommissionYear: String,
     $table: String!,
     $tableItem: String!,
+    $isPrivate: Boolean!,
     $isBroken: Boolean!,
     $responsible: String!,
     $comment: String!,
@@ -35,6 +36,7 @@ export const CREATE_TS_MUTATION = gql`
       table: $table,
       tableItem: $tableItem,
       isBroken: $isBroken,
+      isPrivate: $isPrivate,
       complectation: $complectation) {
         id
         unit { id name parent { id name } fullPath }
@@ -43,6 +45,7 @@ export const CREATE_TS_MUTATION = gql`
         infoType { id name }
         receiptYear
         isBroken
+        isPrivate
         commissioningYear
         decommissionYear
         tsPurpose { id name }
