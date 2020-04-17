@@ -246,9 +246,9 @@ export class ManagementResolver {
 
     @Query(returns => String)
     @UseMiddleware(isAuthenticatedByRole(["admin"]))
-    async exportDB() {
+    async exportDB(@Arg('exportPrivate') exportPrivate: boolean) {
         const response = {
-            ts: (await di.tsRepo.getAll()).filter(e => e.isPrivate === false),
+            ts: (await di.tsRepo.getAll()).filter(e => exportPrivate ? true : e.isPrivate === false),
             tsTypes: await di.tsTypeRepo.getAll(),
             infoTypes: await di.infoTypeRepo.getAll(),
             tables: await di.tableRepo.getAll(),
@@ -264,7 +264,7 @@ export class ManagementResolver {
 
     @Query(returns => String)
     @UseMiddleware(isAuthenticatedByRole(["admin"]))
-    async exportTS(@Arg('id') id: string) {
+    async exportTS(@Arg('id') id: string, @Arg('exportPrivate') exportPrivate: boolean) {
         const currentUnit = await di.unitRepo.getById(id, ["children"]);
 
         const units = [currentUnit, ...await currentUnit.getChildren()];
@@ -272,8 +272,11 @@ export class ManagementResolver {
 
         const where = {
             ...include({ unit }),
-            isPrivate: false,
         };
+
+        if (!exportPrivate) {
+            where.isPrivate = false;
+        }
 
         const response = {
             ts: await di.tsRepo.find({ where, loadRelationIds: true }),
@@ -286,7 +289,7 @@ export class ManagementResolver {
 
     @Query(returns => String)
     @UseMiddleware(isAuthenticatedByRole(["admin"]))
-    async exportUnit(@Arg('id') id: string) {
+    async exportUnit(@Arg('id') id: string, @Arg('exportPrivate') exportPrivate: boolean) {
         const currentUnit = await di.unitRepo.getById(id, ["children"]);
 
         const units = [currentUnit, ...await currentUnit.getChildren()];
@@ -294,8 +297,11 @@ export class ManagementResolver {
 
         const where = {
             ...include({ unit }),
-            isPrivate: false,
         };
+
+        if (!exportPrivate) {
+            where.isPrivate = false;
+        }
 
         const response = {
             ts: await di.tsRepo.find({ where, loadRelationIds: true }),
@@ -440,7 +446,7 @@ export class ManagementResolver {
         await save(TableItem, tableItems);
         await save(Ts, await Promise.all(
             ts.map(async (t: any) =>
-                ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: false }))));
+                ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: t.isPrivate || false }))));
 
         for (let userId in userMap) {
             const u = await di.userRepo.getById(userId);
@@ -553,7 +559,7 @@ export class ManagementResolver {
         await mergeConditional(Ts,
             await Promise.all(
                 ts.map(async (t: any) =>
-                    ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: false }))),
+                    ({ ...t, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: t.isPrivate || false }))),
             "unit");
 
         return time;
@@ -627,7 +633,7 @@ export class ManagementResolver {
         await mergeConditional(Ts,
             await Promise.all(
                 ts.map(async (t: any) =>
-                    ({ ...t, unit: id, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: false }))),
+                    ({ ...t, unit: id, complectation: await di.tsTypeRepo.findByIds(t.complectation), isPrivate: t.isPrivate || false }))),
             "unit");
 
         return time;

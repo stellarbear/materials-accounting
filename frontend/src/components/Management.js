@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TransitionablePortal, Message, Menu, Dropdown, Icon, Modal, Button, Loader } from 'semantic-ui-react';
+import { TransitionablePortal, Message, Menu, Dropdown, Icon, Modal, Button, Loader, Checkbox } from 'semantic-ui-react';
 import { is_parent } from '../helpers/tree';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
@@ -10,18 +10,18 @@ import './../styles/Menu.css'
 const reloadTimeout = 1280
 
 export const EXPORT_TS_QUERY = gql`
-  query ($id: String!) {
-    exportTS(id: $id)
+  query ($id: String!, $exportPrivate: Boolean!) {
+    exportTS(id: $id, exportPrivate: $exportPrivate)
   }
 `;
 export const EXPORT_UNIT_QUERY = gql`
-  query ($id: String!) {
-    exportUnit(id: $id)
+  query ($id: String!, $exportPrivate: Boolean!) {
+    exportUnit(id: $id, exportPrivate: $exportPrivate)
   }
 `;
 export const EXPORT_DB_QUERY = gql`
-  query{
-    exportDB
+  query ($exportPrivate: Boolean!){
+    exportDB(exportPrivate: $exportPrivate)
   }
 `;
 export const EXPORT_DICTS_QUERY = gql`
@@ -102,6 +102,7 @@ function readFile(file) {
 
 class Management extends Component {
     state = {
+        exportPrivate: false,
         importFileName: "",
         showPortal: false,
         showMock: false,
@@ -283,7 +284,7 @@ class Management extends Component {
         try {
             const { data } = await client.query({
                 query: EXPORT_TS_QUERY,
-                variables: { id: unit.key }
+                variables: { id: unit.key, exportPrivate: this.state.exportPrivate }
             });
 
             const response = JSON.parse(data.exportTS);
@@ -304,7 +305,7 @@ class Management extends Component {
         try {
             const { data } = await client.query({
                 query: EXPORT_UNIT_QUERY,
-                variables: { id: unit.key }
+                variables: { id: unit.key, exportPrivate: this.state.exportPrivate }
             });
 
             const response = JSON.parse(data.exportUnit);
@@ -325,6 +326,7 @@ class Management extends Component {
         try {
             const { data } = await client.query({
                 query: EXPORT_DB_QUERY,
+                variables: { exportPrivate: this.state.exportPrivate }
             });
             const response = JSON.parse(data.exportDB);
             const filename = `${response.time}-db.json`;
@@ -397,7 +399,7 @@ class Management extends Component {
     render = () => {
         const platform = process.env.REACT_APP_PLATFORM || "web"
         const { state, onTSWipe, onConvert, onDBExport, onDictsExport, onTSImport, onTSExport, onUnitWipe, onDBImport, onUnitExport, onDBWipe, onDictsImport, onUnitImport, onModalClose, onModalSubmit } = this;
-        const { showPortal, isNegative, message, importDBFileName, showMock, showModal, removeItem } = state;
+        const { showPortal, isNegative, message, importDBFileName, showMock, showModal, removeItem, exportPrivate } = state;
         return (
             <React.Fragment>
                 <Query query={UNITS_QUERY}>
@@ -433,7 +435,15 @@ class Management extends Component {
                         return (
                             <Dropdown simple direction='right' item trigger={<span><Icon name='book' />Управление данными</span>}>
                                 <Dropdown.Menu>
-                                    <Dropdown.Header>Экспорт</Dropdown.Header>
+                                    <Dropdown.Header style={{ display: "flex", alignItems: "center", justifyContent: 'space-between' }}>
+                                        Экспорт
+                                            <Checkbox
+                                            style={{ fontSize: 12, textTransform: "none" }}
+                                            label={'Внутренние'}
+                                            checked={exportPrivate}
+                                            onChange={() => this.setState({ exportPrivate: !exportPrivate })}
+                                        />
+                                    </Dropdown.Header>
                                     {platform === "web" &&
                                         <React.Fragment>
                                             <Dropdown.Item onClick={onDictsExport}>

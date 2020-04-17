@@ -147,7 +147,7 @@ class Ts extends Component {
                 color='teal'
                 icon
                 labelPosition='left'>
-                <Icon name='edit alternate outline' />
+                <Icon name='edit outline' />
                 Изменить
             </Button>
               <Button
