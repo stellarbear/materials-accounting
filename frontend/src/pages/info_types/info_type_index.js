@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { Grid, Table, Button, Header, Modal, Icon, Input, Message } from 'semantic-ui-react';
 import TablePlaceholder from '../../components/TablePlaceholder';
 import authError from '../../helpers/auth_error';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 const MODAL_CONTENT = {
   'CREATE': {
@@ -87,7 +88,7 @@ class InfoTypeList extends React.Component {
   close = () => this.setState({ modal: false, error: '' });
 
   render = () => {
-    document.title = 'Обрабатываемая информация';
+    document.title = this.props.translation.get("Обрабатываемая информация");
     const { id, name, action, modal } = this.state;
     const currentMutation = getMutation(action);
     const content = MODAL_CONTENT[action];
@@ -95,7 +96,7 @@ class InfoTypeList extends React.Component {
       <Query query={INFOTYPE_QUERY}>
         {({ loading, error, data }) => {
           if (loading) {
-            return <TablePlaceholder name='Обрабатываемая информация' />;
+            return <TablePlaceholder name={this.props.translation.get("Обрабатываемая информация")} />;
           };
           if (error) {
             if (authError(error)) return <Redirect to='/login' />
@@ -113,7 +114,7 @@ class InfoTypeList extends React.Component {
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell colSpan='3'>
-                            <Header as='h3' floated='left'>Обрабатываемая информация</Header>
+                            <Header as='h3' floated='left'>{this.props.translation.get("Обрабатываемая информация")}</Header>
                             <Button
                               color='teal'
                               floated='right'
@@ -253,4 +254,4 @@ class InfoTypeList extends React.Component {
   }
 }
 
-export default InfoTypeList;
+export default withTranslation(InfoTypeList);

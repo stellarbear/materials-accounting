@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Label, List, Icon, Header, Accordion, Grid, Popup } from 'semantic-ui-react';
 import StringLimit from './StringLimit';
+import { withTranslation } from '../components/TranslationWrapper';
 import '../styles/Ts.css';
 
 class Ts extends Component {
@@ -9,13 +10,13 @@ class Ts extends Component {
   renderTableDescription = (ts) => {
     return (
       <p>
-        <b>Основание: </b>
+        <b>{this.props.translation.get("Табель")}: </b>
         <StringLimit
           limit={150}
           text={`${ts.table.name}, ${ts.tableItem.name}`}
         />
         <br />
-        <b>Отв. за эксплуатацию: </b>
+        <b>{this.props.translation.get("Отв. за эксплуатацию")}: </b>
         {ts.responsible.length === 0
           ? <span>-</span>
           : <StringLimit
@@ -107,7 +108,7 @@ class Ts extends Component {
                     <List.Item>
                       <List.Icon name='calendar alternate outline' />
                       <List.Content>
-                        Год получения: {ts.receiptYear}
+                        {this.props.translation.get("Год получения")}: {ts.receiptYear}
                       </List.Content>
                     </List.Item>
                     {
@@ -115,7 +116,7 @@ class Ts extends Component {
                         <List.Item>
                           <List.Icon name='calendar check outline' />
                           <List.Content>
-                            Год ввода в эксплуатацию: {ts.commissioningYear}
+                            {this.props.translation.get("Год ввода в эксплуатацию")}: {ts.commissioningYear}
                           </List.Content>
                         </List.Item>
                       )
@@ -125,7 +126,7 @@ class Ts extends Component {
                         <List.Item>
                           <List.Icon name='calendar times outline' />
                           <List.Content>
-                            Год вывода из эксплуатации: {ts.decommissionYear}
+                            {this.props.translation.get("Год вывода из эксплуатации")}: {ts.decommissionYear}
                           </List.Content>
                         </List.Item>
                       )
@@ -212,4 +213,4 @@ class Ts extends Component {
   }
 }
 
-export default Ts;
+export default withTranslation(Ts);

@@ -3,6 +3,7 @@ import { Dropdown, Form } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import sortParagraph from '../helpers/sort_paragraph';
+import { withTranslation } from '../components/TranslationWrapper';
 
 export const TABLES_QUERY = gql`
   {
@@ -109,8 +110,8 @@ class DropdownTables extends React.Component {
           clearable
           searchInput={{ id: 'table' }}
           control={Dropdown}
-          label={{ children: 'Табель', htmlFor: 'table' }}
-          placeholder='Табель'
+          label={{ children: this.props.translation.get("Табель"), htmlFor: 'table' }}
+          placeholder={this.props.translation.get("Табель")}
           fluid
           selection
           search
@@ -126,7 +127,7 @@ class DropdownTables extends React.Component {
           clearable
           disabled={!this.state.table}
           searchInput={{ id: 'tableitem' }}
-          label={{ children: 'Пункт табеля', htmlFor: 'tableitem' }}
+          label={{ children: this.props.translation.get("Пункт табеля"), htmlFor: 'tableitem' }}
           control={Dropdown}
           options={tableItemList}
           fluid
@@ -142,4 +143,4 @@ class DropdownTables extends React.Component {
   }
 }
 
-export default withApollo(DropdownTables);
+export default withApollo(withTranslation(DropdownTables));

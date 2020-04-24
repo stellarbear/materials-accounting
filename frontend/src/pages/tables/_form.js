@@ -3,6 +3,7 @@ import { Form, Input, Button, Segment, Icon, TransitionablePortal, Message } fro
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import sortParagraph from '../../helpers/sort_paragraph';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 class TableForm extends React.Component {
   state = {
@@ -104,7 +105,7 @@ class TableForm extends React.Component {
                   control={Input}
                   error={Boolean(this.state.error)}
                   label='Название'
-                  placeholder='Табель'
+                  placeholder={this.props.translation.get("Табель")}
                   required
                   value={this.state.name}
                   onChange={e => this.setState({ name: e.target.value, error: '', showPortal: false })}
@@ -128,8 +129,8 @@ class TableForm extends React.Component {
                             } : null
                           }
                           onChange={this.handleChange}
-                          label='Пункт табеля'
-                          placeholder='Пункт табеля'
+                          label={this.props.translation.get("Пункт табеля")}
+                          placeholder={this.props.translation.get("Пункт табеля")}
                           required
                           value={this.state.tableItems[idx].name}
                         />
@@ -142,7 +143,7 @@ class TableForm extends React.Component {
                     onClick={this.addTableItem}
                   >
                     <Icon name='add' />
-                    Добавить пункт
+                    Добавить {this.props.translation.get("Пункт табеля")}
                   </Button>
                 </Segment>
 
@@ -182,4 +183,4 @@ class TableForm extends React.Component {
   }
 }
 
-export default withRouter(TableForm);
+export default withRouter(withTranslation(TableForm));

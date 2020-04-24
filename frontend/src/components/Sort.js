@@ -1,5 +1,6 @@
 import React from 'react';
 import { Icon, Dropdown } from 'semantic-ui-react';
+import { withTranslation } from '../components/TranslationWrapper';
 
 class Sort extends React.Component {
   state = {
@@ -33,43 +34,43 @@ class Sort extends React.Component {
         key: 'tsType',
         text: 'типу ТС',
         value: 'tsType',
-        content: 'Тип ТС',
+        content: this.props.translation.get("Тип ТС"),
       },
       {
         key: 'tsPurpose',
         text: 'назначению ТС',
         value: 'tsPurpose',
-        content: 'Назначение ТС',
+        content: this.props.translation.get("Назначение ТС"),
       },
       {
         key: 'infoType',
         text: 'обрабатываемой информации',
         value: 'infoType',
-        content: 'Обрабатываемая информация',
+        content: this.props.translation.get("Обрабатываемая информация"),
       },
       {
         key: 'unit',
         text: 'подразделению',
         value: 'unit',
-        content: 'Подразделение',
+        content: this.props.translation.get("Подразделение"),
       },
       {
         key: 'receiptYear',
         text: 'году получения',
         value: 'receiptYear',
-        content: 'Год получения',
+        content: this.props.translation.get("Год получения"),
       },
       {
         key: 'commissioningYear',
         text: 'году ввода в эксплуатацию',
         value: 'commissioningYear',
-        content: 'Год ввода в эксплуатацию',
+        content: this.props.translation.get("Год ввода в эксплуатацию"),
       },
       {
         key: 'decommissionYear',
         text: 'году вывода из эксплуатации',
         value: 'decommissionYear',
-        content: 'Год вывода из эксплуатации',
+        content: this.props.translation.get("Год вывода из эксплуатации"),
       },
     ];
     const { updateState, state } = this;
@@ -81,7 +82,10 @@ class Sort extends React.Component {
           <Dropdown
             pointing
             inline
-            options={options}
+            options={options.map(o => {
+              o.text = o.content.toLowerCase();
+              return o;
+            })}
             value={field}
             id='sort'
             onChange={(e, { value }) => updateState({ field: value, sortOrder: 1 })}
@@ -101,4 +105,4 @@ class Sort extends React.Component {
   }
 }
 
-export default Sort;
+export default withTranslation(Sort);

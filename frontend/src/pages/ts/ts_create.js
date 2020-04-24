@@ -3,6 +3,7 @@ import TsForm from './_form';
 import { Breadcrumb, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const CREATE_TS_MUTATION = gql`
   mutation createTS(
@@ -61,11 +62,11 @@ export const CREATE_TS_MUTATION = gql`
 
 class TsCreate extends React.Component {
   render = () => {
-    document.title = 'Добавить ТС';
+    document.title = 'Добавить';
     return (
       <React.Fragment>
         <Breadcrumb>
-          <Breadcrumb.Section><Link to='/'>Технические средства</Link></Breadcrumb.Section>
+          <Breadcrumb.Section><Link to='/'>{this.props.translation.get("Технические средства")}</Link></Breadcrumb.Section>
           <Breadcrumb.Divider icon='right angle' />
           <Breadcrumb.Section active>Добавить</Breadcrumb.Section>
         </Breadcrumb>
@@ -81,4 +82,4 @@ class TsCreate extends React.Component {
   }
 }
 
-export default TsCreate;
+export default withTranslation(TsCreate);

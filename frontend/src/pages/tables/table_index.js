@@ -6,6 +6,7 @@ import { Grid, Header, Table, Button, Accordion, List, Modal, Icon, Message } fr
 import TablePlaceholder from '../../components/TablePlaceholder';
 import authError from '../../helpers/auth_error';
 import sortParagraph from '../../helpers/sort_paragraph';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 
 export const TABLES_QUERY = gql`
@@ -63,13 +64,13 @@ class TableList extends React.Component {
   }
 
   render = () => {
-    document.title = 'Список табелей';
+    document.title = this.props.translation.get("Табель");
     const { modal, deleteName, deleteId } = this.state;
     return (
       <Query query={TABLES_QUERY}>
         {({ loading, error, data }) => {
           if (loading) {
-            return <TablePlaceholder name='Список табелей' />;
+            return <TablePlaceholder name={this.props.translation.get("Табель")} />;
           };
           if (error) {
             if (authError(error)) return <Redirect to='/login' />
@@ -90,7 +91,7 @@ class TableList extends React.Component {
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell colSpan='2'>
-                            <Header as='h3' floated='left'>Список табелей</Header>
+                            <Header as='h3' floated='left'>{this.props.translation.get("Табель")}</Header>
                             <Button
                               color='teal'
                               floated='right'
@@ -199,4 +200,4 @@ class TableList extends React.Component {
   }
 }
 
-export default TableList;
+export default withTranslation(TableList);

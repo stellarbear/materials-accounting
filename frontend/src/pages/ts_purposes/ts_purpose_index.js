@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Grid, Table, Button, Header, Modal, Icon, Input, Message } from 'semantic-ui-react';
 import TablePlaceholder from '../../components/TablePlaceholder';
 import authError from '../../helpers/auth_error';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 const MODAL_CONTENT = {
   'CREATE': {
@@ -86,7 +87,7 @@ class TsPurposeList extends React.Component {
   close = () => this.setState({ modal: false, error: '' });
 
   render = () => {
-    document.title = 'Назначения ТС';
+    document.title = this.props.translation.get("Назначение ТС");
     const { id, name, action, modal } = this.state;
     const currentMutation = getMutation(action);
     const content = MODAL_CONTENT[action];
@@ -94,7 +95,7 @@ class TsPurposeList extends React.Component {
       <Query query={TSPURPOSE_QUERY}>
         {({ loading, error, data }) => {
           if (loading) {
-            return <TablePlaceholder name='Назначения ТС' />;
+            return <TablePlaceholder name={this.props.translation.get("Назначение ТС")} />;
           };
           if (error) {
             if (authError(error)) return <Redirect to='/login' />
@@ -112,7 +113,7 @@ class TsPurposeList extends React.Component {
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell colSpan='3'>
-                            <Header as='h3' floated='left'>Назначения ТС</Header>
+                            <Header as='h3' floated='left'>{this.props.translation.get("Назначение ТС")}</Header>
                             <Button
                               color='teal'
                               floated='right'
@@ -186,7 +187,7 @@ class TsPurposeList extends React.Component {
                       focus
                       fluid
                       value={name}
-                      placeholder='Назначение ТС'
+                      placeholder={this.props.translation.get("Назначение ТС")}
                       onChange={e => this.setState({ name: e.target.value, error: '' })}
                     />
                   }
@@ -252,4 +253,4 @@ class TsPurposeList extends React.Component {
   }
 }
 
-export default TsPurposeList;
+export default withTranslation(TsPurposeList);

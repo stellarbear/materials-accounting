@@ -3,6 +3,7 @@ import UnitForm from './_form';
 import { Breadcrumb, Grid } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import gql from 'graphql-tag';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 const CREATE_UNIT_MUTATION = gql`
   mutation createUnit($name: String!, $parent: String){
@@ -18,12 +19,12 @@ const CREATE_UNIT_MUTATION = gql`
   }
 `;
 
-export default class UnitCreate extends React.Component {
+class UnitCreate extends React.Component {
   render = () => {
     return (
       <React.Fragment>
         <Breadcrumb>
-          <Breadcrumb.Section><Link to='/units'>Подразделения</Link></Breadcrumb.Section>
+          <Breadcrumb.Section><Link to='/units'>{this.props.translation.get("Подразделение")}</Link></Breadcrumb.Section>
           <Breadcrumb.Divider icon='right angle' />
           <Breadcrumb.Section active>Добавить</Breadcrumb.Section>
         </Breadcrumb>
@@ -43,3 +44,5 @@ export default class UnitCreate extends React.Component {
     );
   }
 }
+
+export default withTranslation(UnitCreate)

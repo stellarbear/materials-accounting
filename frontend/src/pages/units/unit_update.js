@@ -6,6 +6,7 @@ import { Query } from 'react-apollo';
 import gql from 'graphql-tag';
 import authError from '../../helpers/auth_error';
 import Loader from '../../components/Loader';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const UNIT_QUERY = gql`
     query getUnit($id: String!) {
@@ -35,7 +36,7 @@ export const UPDATE_UNIT_MUTATION = gql`
   }
 `;
 
-export default class UnitUpdate extends React.Component {
+class UnitUpdate extends React.Component {
   render = () => {
     const { id } = this.props.match.params;
     return (
@@ -56,7 +57,7 @@ export default class UnitUpdate extends React.Component {
           return (
             <React.Fragment >
               <Breadcrumb>
-                <Breadcrumb.Section><Link to='/units'>Подразделения</Link></Breadcrumb.Section>
+                <Breadcrumb.Section><Link to='/units'>{this.props.translation.get("Подразделение")}</Link></Breadcrumb.Section>
                 <Breadcrumb.Divider icon='right angle' />
                 <Breadcrumb.Section active>{unit.fullPath.join(' ')}</Breadcrumb.Section>
               </Breadcrumb>
@@ -82,3 +83,5 @@ export default class UnitUpdate extends React.Component {
     );
   }
 }
+
+export default withTranslation(UnitUpdate)

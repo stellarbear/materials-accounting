@@ -4,25 +4,26 @@ import DropdownUnits from '../../components/DropdownUnits';
 import { withApollo } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import { omit } from '../../helpers/object';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 const options = [
   {
     key: 1,
     text: 'Пользователь',
     value: 'user',
-    content: <Header icon='user outline' content='Пользователь' subheader='Чтение списка ТС' />,
+    content: <Header icon='user outline' content='Пользователь' subheader='Доступ на чтение' />,
   },
   {
     key: 2,
     text: 'Модератор',
     value: 'moderator',
-    content: <Header icon='edit outline' content='Модератор' subheader='Чтение и редактирование списка ТС' />,
+    content: <Header icon='edit outline' content='Модератор' subheader='Доступ на чтение и редактирование' />,
   },
   {
     key: 3,
     text: 'Администратор',
     value: 'admin',
-    content: <Header icon='star outline' content='Администратор' subheader='Чтение и редактирование всех списков + управление пользователями' />,
+    content: <Header icon='star outline' content='Администратор' subheader='Полный доступ + управление пользователями' />,
   },
 ];
 
@@ -84,7 +85,7 @@ class UserForm extends React.Component {
     const fieldNames = {
       username: 'Имя пользователя',
       password: 'Пароль',
-      unit: 'Подразделение',
+      unit: this.props.translation.get("Подразделение"),
       role: 'Роль',
     }
     const requiredFields = [
@@ -262,7 +263,7 @@ class UserForm extends React.Component {
               name='unit'
               searchInput={{ id: 'unit' }}
               control={DropdownUnits}
-              label={{ children: 'Подразделение', htmlFor: 'unit' }}
+              label={{ children: this.props.translation.get("Подразделение"), htmlFor: 'unit' }}
               value={unit}
               onChange={this.handleChange}
               error={this.state.errors.unit && this.state.errors.unit !== ''}
@@ -314,4 +315,4 @@ class UserForm extends React.Component {
   }
 }
 
-export default withRouter(withApollo(UserForm));
+export default withRouter(withApollo(withTranslation(UserForm)));

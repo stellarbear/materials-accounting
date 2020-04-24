@@ -7,6 +7,7 @@ import Loader from '../../components/Loader';
 import { Redirect } from 'react-router-dom';
 import StringLimit from '../../components/StringLimit';
 import sortParagraph from '../../helpers/sort_paragraph';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 class TablesReport extends React.Component {
 
@@ -37,7 +38,7 @@ class TablesReport extends React.Component {
   };
 
   generateCSV = (data) => {
-    let csv = 'data:text/csv;charset=utf-8,\ufeffТип ТС;Количество\n';
+    let csv = `data:text/csv;charset=utf-8,\ufeff${this.props.translation.get("Тип ТС")};Количество\n`;
     let total = 0;
     for (const d in data) {
       const table = data[d];
@@ -155,4 +156,4 @@ class TablesReport extends React.Component {
   }
 }
 
-export default TablesReport;
+export default withTranslation(TablesReport);

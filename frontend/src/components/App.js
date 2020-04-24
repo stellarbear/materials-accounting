@@ -31,11 +31,13 @@ import TableCreate from '../pages/tables/table_create';
 import TableUpdate from '../pages/tables/table_update';
 
 import Report from '../pages/report/index';
+import Translation from '../pages/translation';
+import { TranslationWrapper } from './TranslationWrapper';
 
 class App extends Component {
   render = () => {
     return (
-      <React.Fragment>
+      <TranslationWrapper>
         <Switch>
           <Route exact path='/login' component={Login} />
           <RouteWithLayout exact path='/' component={TsList} auth />
@@ -56,9 +58,10 @@ class App extends Component {
           <RouteWithLayout exact path='/tables' component={TableList} auth roles={['admin']} />
           <RouteWithLayout exact path='/tables/create' component={TableCreate} auth roles={['admin']} />
           <RouteWithLayout exact path='/tables/update/:id' component={TableUpdate} auth roles={['admin']} />
+          <RouteWithLayout exact path='/translation' component={Translation} auth roles={['admin']} />
           <Route component={Error} />
         </Switch>
-      </React.Fragment>
+      </TranslationWrapper>
     );
   }
 }

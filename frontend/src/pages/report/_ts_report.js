@@ -5,6 +5,7 @@ import { Query } from 'react-apollo';
 import authError from '../../helpers/auth_error';
 import Loader from '../../components/Loader';
 import { Redirect } from 'react-router-dom';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 class TsReport extends React.Component {
 
@@ -39,7 +40,7 @@ class TsReport extends React.Component {
   };
 
   generateCSV = (data) => {
-    let csv = 'data:text/csv;charset=utf-8,\ufeffТип ТС;Количество\n';
+    let csv = `data:text/csv;charset=utf-8,\ufeff${this.props.translation.get("Тип ТС")};Количество\n`;
     let total = 0;
     for (const tstsType in data) {
       csv += `${data[tstsType].name};${data[tstsType].count}\n`;
@@ -143,4 +144,4 @@ class TsReport extends React.Component {
   }
 }
 
-export default TsReport;
+export default withTranslation(TsReport);

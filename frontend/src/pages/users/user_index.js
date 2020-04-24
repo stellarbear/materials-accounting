@@ -5,6 +5,7 @@ import TablePlaceholder from '../../components/TablePlaceholder';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 import authError from '../../helpers/auth_error';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const USERS_QUERY = gql`
   {
@@ -107,7 +108,7 @@ class UserList extends React.Component {
                           <Table.HeaderCell textAlign='center'>#</Table.HeaderCell>
                           <Table.HeaderCell>Имя пользователя</Table.HeaderCell>
                           <Table.HeaderCell>Роль</Table.HeaderCell>
-                          <Table.HeaderCell>Подразделение</Table.HeaderCell>
+                          <Table.HeaderCell>{this.props.translation.get("Подразделение")}</Table.HeaderCell>
                           <Table.HeaderCell>
                             <Button
                               color='teal'
@@ -139,7 +140,7 @@ class UserList extends React.Component {
                                   </Label>
                                 </Table.Cell>
                                 <Table.Cell collapsing>
-                                  {(user.unit && user.unit.fullPath.join(' ')) || 'Все подразделения'}
+                                  {(user.unit && user.unit.fullPath.join(' ')) || 'Все'}
                                 </Table.Cell>
                                 <Table.Cell collapsing textAlign='right'>
                                   <Button.Group>
@@ -226,4 +227,4 @@ class UserList extends React.Component {
   }
 }
 
-export default UserList;
+export default withTranslation(UserList);

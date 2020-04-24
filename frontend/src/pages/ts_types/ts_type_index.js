@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import { Grid, Table, Button, Header, Modal, Icon, Input, Message, Label, Checkbox, Divider } from 'semantic-ui-react';
 import TablePlaceholder from '../../components/TablePlaceholder';
 import authError from '../../helpers/auth_error';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 const MODAL_CONTENT = {
   'CREATE': {
@@ -100,7 +101,7 @@ class TsTypeList extends React.Component {
   }
 
   render = () => {
-    document.title = 'Типы ТС';
+    document.title = this.props.translation.get("Тип ТС");
     const { id, name, action, modal, withComplectation } = this.state;
     const currentMutation = getMutation(action);
     const content = MODAL_CONTENT[action];
@@ -109,7 +110,7 @@ class TsTypeList extends React.Component {
         {({ loading, error, data }) => {
           if (loading) {
             return (
-              <TablePlaceholder name='Типы ТС' />
+              <TablePlaceholder name={this.props.translation.get("Тип ТС")} />
             );
           };
           if (error) {
@@ -129,7 +130,7 @@ class TsTypeList extends React.Component {
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell colSpan='4'>
-                            <Header as='h3' floated='left'>Типы ТС</Header>
+                            <Header as='h3' floated='left'>{this.props.translation.get("Тип ТС")}</Header>
                             <Button
                               color='teal'
                               floated='right'
@@ -207,7 +208,7 @@ class TsTypeList extends React.Component {
                         focus
                         fluid
                         value={name}
-                        placeholder='Тип ТС'
+                        placeholder={this.props.translation.get("Тип ТС")}
                         onChange={e => this.setState({ name: e.target.value, error: '' })}
                       />
                       <Divider hidden />
@@ -281,4 +282,4 @@ class TsTypeList extends React.Component {
   }
 }
 
-export default TsTypeList;
+export default withTranslation(TsTypeList);

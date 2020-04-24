@@ -1,4 +1,4 @@
-FROM node:8-alpine as build
+FROM node:10-alpine as build
 ENV NODE_ENV="production"
 WORKDIR /usr/app
 COPY package.docker.build.json ./package.json
@@ -7,14 +7,14 @@ COPY ./tsconfig.json ./tsconfig.json
 COPY ./src ./src
 RUN yarn build
 
-FROM node:8-alpine as prod
+FROM node:10-alpine as prod
 ENV NODE_ENV="production"
 WORKDIR /usr/app
 COPY package.docker.prod.json ./package.json
 RUN yarn install
 COPY ./tsconfig.json ./tsconfig.json
 
-FROM node:8-alpine
+FROM node:10-alpine
 ENV NODE_ENV="production"
 WORKDIR /usr/app
 COPY --from=prod /usr/app/node_modules /usr/app/node_modules

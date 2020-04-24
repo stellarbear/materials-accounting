@@ -7,6 +7,7 @@ import { Grid, List, Header, Table, Button } from 'semantic-ui-react';
 import { list_to_tree } from '../../helpers/tree';
 import authError from '../../helpers/auth_error';
 import TablePlaceholder from '../../components/TablePlaceholder';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const UNITS_QUERY = gql`
   {
@@ -27,12 +28,12 @@ export const UNITS_QUERY = gql`
 
 class UnitList extends React.Component {
   render = () => {
-    document.title = 'Список подразделений';
+    document.title = this.props.translation.get("Подразделение");
     return (
       <Query query={UNITS_QUERY}>
         {({ loading, error, data }) => {
           if (loading) {
-            return <TablePlaceholder name='Подразделения' />
+            return <TablePlaceholder name={this.props.translation.get("Подразделение")} />
           };
           if (error) {
             if (authError(error)) return <Redirect to='/login' />
@@ -49,7 +50,7 @@ class UnitList extends React.Component {
                     <Table.Header>
                       <Table.Row>
                         <Table.HeaderCell>
-                          <Header as='h3' floated='left'>Подразделения</Header>
+                          <Header as='h3' floated='left'>{this.props.translation.get("Подразделение")}</Header>
                           <Button
                             color='teal'
                             floated='right'
@@ -82,4 +83,4 @@ class UnitList extends React.Component {
   }
 }
 
-export default UnitList;
+export default withTranslation(UnitList);

@@ -4,6 +4,7 @@ import { is_parent } from '../helpers/tree';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
 import { Query } from 'react-apollo';
+import { fileDownload, fileUpload } from '../helpers/file';
 import gql from 'graphql-tag';
 import './../styles/Menu.css'
 
@@ -84,22 +85,6 @@ const UNITS_QUERY = gql`
   }
 `;
 
-const downloadFile = (content, fileName, contentType) => {
-    var a = document.createElement("a");
-    var file = new Blob([content], { type: contentType });
-    a.href = URL.createObjectURL(file);
-    a.download = fileName;
-    a.click();
-}
-
-function readFile(file) {
-    return new Promise((resolve, reject) => {
-        let fr = new FileReader();
-        fr.onload = x => resolve(fr.result);
-        fr.readAsText(file);
-    })
-}
-
 class Management extends Component {
     state = {
         exportPrivate: false,
@@ -128,14 +113,14 @@ class Management extends Component {
         const { client } = this.props;
         try {
             const file = e.target.files[0]
-            const input = await readFile(file);
+            const input = await fileUpload(file);
             const { data } = await client.mutate({
                 mutation: CONVERT_QUERY,
                 variables: { input, type }
             })
 
             const filename = `converted-${file.name}`;
-            downloadFile(data.convert, filename, 'text/plain');
+            fileDownload(data.convert, filename, 'text/plain');
 
             this.showMessage(`Файл сконвертирован`);
         } catch (error) {
@@ -153,7 +138,7 @@ class Management extends Component {
         this.setState({ showMock: true })
         const { client } = this.props;
         try {
-            const input = await readFile(e.target.files[0]);
+            const input = await fileUpload(e.target.files[0]);
             const { data } = await client.mutate({
                 mutation: IMPORT_DB_MUTATION,
                 variables: { input }
@@ -177,14 +162,14 @@ class Management extends Component {
         this.setState({ showMock: true })
         const { client } = this.props;
         try {
-            const input = await readFile(e.target.files[0]);
+            const input = await fileUpload(e.target.files[0]);
             const { data } = await client.mutate({
                 mutation: IMPORT_UNIT_MUTATION,
                 variables: { input }
             })
             const date = new Date(parseInt(data.importUnit)).toLocaleString()
             this.props.history.push(`/`);
-            this.showMessage(`Импортированы подразделения от ${date}`);
+            this.showMessage(`Импортирована база ${this.props.translation.get("Подразделение")} от ${date}`);
             setTimeout(() => window.location.reload(), reloadTimeout);
         } catch (error) {
             this.showError(`Ошибка сервера - ${error}`);
@@ -202,7 +187,7 @@ class Management extends Component {
         const { client } = this.props;
         const { key, text } = unit;
         try {
-            const input = await readFile(e.target.files[0]);
+            const input = await fileUpload(e.target.files[0]);
             const { data } = await client.mutate({
                 mutation: IMPORT_TS_MUTATION,
                 variables: { input, id: key }
@@ -232,7 +217,7 @@ class Management extends Component {
                 variables: { id: key }
             })
             this.props.history.push(`/`);
-            this.showMessage(`${text}: Очищен список ТС подразделения`);
+            this.showMessage(`${text}: Очищена таблица ${this.props.translation.get("ТС")}`);
             setTimeout(() => window.location.reload(), reloadTimeout);
         } catch (error) {
             this.showError(`Ошибка сервера - ${error}`);
@@ -289,8 +274,8 @@ class Management extends Component {
 
             const response = JSON.parse(data.exportTS);
             const filename = `${response.time}-${unit.text}-ts.json`;
-            downloadFile(data.exportTS, filename, 'text/plain');
-            this.showMessage(`ТС подразделения сохранено локально - ${filename}`);
+            fileDownload(data.exportTS, filename, 'text/plain');
+            this.showMessage(`база ${this.props.translation.get("ТС")} сохранена локально - ${filename}`);
         } catch (error) {
             this.showError(`Ошибка сервера - ${error}`);
         }
@@ -310,8 +295,8 @@ class Management extends Component {
 
             const response = JSON.parse(data.exportUnit);
             const filename = `${response.time}-${unit.text}-unit.json`;
-            downloadFile(data.exportUnit, filename, 'text/plain');
-            this.showMessage(`Подразделение сохранено локально - ${filename}`);
+            fileDownload(data.exportUnit, filename, 'text/plain');
+            this.showMessage(`База ${this.props.translation.get("Подразделение")} сохранена локально - ${filename}`);
         } catch (error) {
             this.showError(`Ошибка сервера - ${error}`);
         }
@@ -330,7 +315,7 @@ class Management extends Component {
             });
             const response = JSON.parse(data.exportDB);
             const filename = `${response.time}-db.json`;
-            downloadFile(data.exportDB, filename, 'text/plain');
+            fileDownload(data.exportDB, filename, 'text/plain');
             this.showMessage(`Дамп БД сохранён локально - ${filename}`);
         } catch (error) {
             this.showError(`Ошибка сервера - ${error}`);
@@ -344,7 +329,7 @@ class Management extends Component {
         this.setState({ showMock: true })
         const { client } = this.props;
         try {
-            const input = await readFile(e.target.files[0]);
+            const input = await fileUpload(e.target.files[0]);
             const { data } = await client.mutate({
                 mutation: IMPORT_DICTS_MUTATION,
                 variables: { input }
@@ -373,7 +358,7 @@ class Management extends Component {
             });
             const response = JSON.parse(data.exportDicts);
             const filename = `${response.time}-dicts.json`;
-            downloadFile(data.exportDicts, filename, 'text/plain');
+            fileDownload(data.exportDicts, filename, 'text/plain');
             this.showMessage(`Дамп словарей сохранён локально - ${filename}`);
         } catch (error) {
             this.showError(`Ошибка сервера - ${error}`);
@@ -607,6 +592,12 @@ class Management extends Component {
                                             </Dropdown.Item>
                                         </React.Fragment>
                                     }
+                                    <Dropdown.Divider />
+                                    <Dropdown.Header>Другое</Dropdown.Header>
+                                    <Dropdown.Item onClick={() => this.props.history.push(`/translation`)}>
+                                        <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
+                                        <span>Конфигурация интерфейса</span>
+                                    </Dropdown.Item>
                                 </Dropdown.Menu>
                             </Dropdown>)
                     }}

@@ -6,6 +6,7 @@ import { Redirect, Link } from 'react-router-dom';
 import { Header, Grid, Button, Icon, Breadcrumb, Modal, Segment, Message } from 'semantic-ui-react';
 import { UNITS_QUERY } from './unit_index';
 import Loader from '../../components/Loader';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const UNIT_QUERY = gql`
     query getUnit($id: String!) {
@@ -41,11 +42,11 @@ class UnitShow extends React.Component {
   render = () => {
     const { modal } = this.state;
     const { id } = this.props.match.params;
-    document.title = 'Просмотр подразделения';
+    document.title = this.props.translation.get("Подразделение");
     return (
       <React.Fragment>
         <Breadcrumb>
-          <Breadcrumb.Section><Link to='/units'>Подразделения</Link></Breadcrumb.Section>
+          <Breadcrumb.Section><Link to='/units'>{this.props.translation.get("Подразделение")}</Link></Breadcrumb.Section>
           <Breadcrumb.Divider icon='right angle' />
           <Breadcrumb.Section active>Просмотр</Breadcrumb.Section>
         </Breadcrumb>
@@ -94,9 +95,9 @@ class UnitShow extends React.Component {
                           </Grid.Column>
                         </Grid.Row>
                         <Modal size='tiny' open={modal} onClose={this.close}>
-                          <Modal.Header>Удалить подразделение</Modal.Header>
+                          <Modal.Header>Удалить запись</Modal.Header>
                           <Modal.Content>
-                            <p>Вы уверены, что хотите удалить подразделение?</p>
+                            <p>Вы уверены, что хотите удалить запись?</p>
                             <p>{unit.fullPath.slice(0, -1).join(' → ')} → <b>{unit.name}</b></p>
                             {
                               this.state.error &&
@@ -159,4 +160,4 @@ class UnitShow extends React.Component {
   }
 }
 
-export default UnitShow;
+export default withTranslation(UnitShow);

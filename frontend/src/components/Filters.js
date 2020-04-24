@@ -9,6 +9,7 @@ import gql from 'graphql-tag';
 import { withApollo } from 'react-apollo';
 import { omit } from '../helpers/object';
 import DropdownTables from './DropdownTables';
+import { withTranslation } from '../components/TranslationWrapper';
 
 const timerDuration = 256;
 
@@ -168,10 +169,10 @@ class Filters extends React.Component {
             />
           </Form.Field>
           {!this.props.isReport && (<Form.Input
-            label='Инвентарный номер'
+            label={this.props.translation.get("Инв. номер")}
             fluid icon='hashtag'
             iconPosition='left'
-            placeholder='Инв. номер'
+            placeholder={this.props.translation.get("Инв. номер")}
             value={this.state.number}
             onChange={(e, { name, value }) => this.updateState({ number: value, })}
           />)}
@@ -179,8 +180,8 @@ class Filters extends React.Component {
             name='unit'
             searchInput={{ id: 'unit' }}
             control={DropdownUnits}
-            label={{ children: 'Подразделение', htmlFor: 'unit' }}
-            placeholder='Подразделение'
+            label={{ children: this.props.translation.get("Подразделение"), htmlFor: 'unit' }}
+            placeholder={this.props.translation.get("Подразделение")}
             value={this.state.unit.id}
             onChange={(e, { value }) => {
               const unit = { ...this.state.unit };
@@ -191,7 +192,7 @@ class Filters extends React.Component {
           {Boolean(this.state.unit.id) && (
             <Form.Field>
               <Checkbox
-                label='Искать во вложенных подразделениях'
+                label='Искать во вложенных записях'
                 checked={this.state.unit.includeChildren}
                 onChange={() => {
                   const unit = { ...this.state.unit };
@@ -202,21 +203,21 @@ class Filters extends React.Component {
             </Form.Field>
           )}
           <Form.Input
-            label='Ответственный за эксплуатацию'
+            label={this.props.translation.get("Отв. за эксплуатацию")}
             fluid icon='user'
             iconPosition='left'
-            placeholder='Отв. за эксплуатацию'
+            placeholder={this.props.translation.get("Отв. за эксплуатацию")}
             value={this.state.responsible}
             onChange={(e, { name, value }) => this.updateState({ responsible: value, })}
           />
           {!this.props.isReport && (<Form.Field
             name='tsType'
             label={{
-              children: 'Тип ТС', htmlFor: 'tstype'
+              children: this.props.translation.get("Тип ТС"), htmlFor: 'tstype'
             }}
             searchInput={{ id: 'tstype' }}
             control={DropdownTsTypes}
-            placeholder='Тип ТС'
+            placeholder={this.props.translation.get("Тип ТС")}
             multiple={true}
             value={this.state.tsTypes}
             onChange={(e, { value }) => this.updateState({ tsTypes: value })}
@@ -225,8 +226,8 @@ class Filters extends React.Component {
             name='tsPurpose'
             searchInput={{ id: 'tspurpose' }}
             control={DropdownTsPurposes}
-            label={{ children: 'Цель использования', htmlFor: 'tspurpose' }}
-            placeholder='Цель использования'
+            label={{ children: this.props.translation.get("Назначение ТС"), htmlFor: 'tspurpose' }}
+            placeholder={this.props.translation.get("Назначение ТС")}
             multiple={true}
             value={this.state.tsPurposes}
             onChange={(e, { value }) => this.updateState({ tsPurposes: value })}
@@ -235,8 +236,8 @@ class Filters extends React.Component {
             name='infoType'
             searchInput={{ id: 'infotype' }}
             control={DropdownInfoTypes}
-            label={{ children: 'Обрабатываемая информация', htmlFor: 'infotype' }}
-            placeholder='Обрабатываемая информация'
+            label={{ children: this.props.translation.get("Обрабатываемая информация"), htmlFor: 'infotype' }}
+            placeholder={this.props.translation.get("Обрабатываемая информация")}
             multiple={true}
             value={this.state.infoTypes}
             onChange={(e, { value }) => this.updateState({ infoTypes: value })}
@@ -275,7 +276,7 @@ class Filters extends React.Component {
             />
           </Form.Field>
           <Form.Field className='radio-group'>
-            <label>Состояние ТС:</label>
+            <label>Состояние:</label>
           </Form.Field>
           <Form.Field className='radio-group'>
             <Checkbox
@@ -308,7 +309,7 @@ class Filters extends React.Component {
             />
           </Form.Field>
           <Form.Field>
-            <label> Год получения:
+            <label> {this.props.translation.get("Год получения")}:
               {
                 Boolean(this.state.stats.receiptYearMin && this.state.stats.receiptYearMax) ? (
                   <Range
@@ -332,7 +333,7 @@ class Filters extends React.Component {
           </Form.Field>
           <Form.Field>
             <Checkbox
-              label='Фильтр по году ввода в эксплуатацию'
+              label={`Фильтр ${this.props.translation.get("Год ввода в эксплуатацию")}`}
               checked={this.state.optionalFields.showCommissioningYear}
               onChange={() => {
                 const optionalFields = { ...this.state.optionalFields };
@@ -352,7 +353,7 @@ class Filters extends React.Component {
           {
             this.state.optionalFields.showCommissioningYear && (
               <Form.Field>
-                <label> Год ввода в эксплуатацию:
+                <label> {this.props.translation.get("Год ввода в эксплуатацию")}:
                   {
                     Boolean(this.state.stats.commissioningYearMin && this.state.stats.commissioningYearMax) ? (
                       <Range
@@ -378,7 +379,7 @@ class Filters extends React.Component {
           }
           <Form.Field>
             <Checkbox
-              label='Фильтр по году вывода из эксплуатации'
+              label={`Фильтр ${this.props.translation.get("Год вывода из эксплуатации")}`}
               checked={this.state.optionalFields.showDecommissionYear}
               onChange={() => {
                 const optionalFields = { ...this.state.optionalFields };
@@ -398,7 +399,7 @@ class Filters extends React.Component {
           {
             this.state.optionalFields.showDecommissionYear && (
               <Form.Field>
-                <label> Год вывода из эксплуатации:
+                <label> {this.props.translation.get("Год вывода из эксплуатации")}:
                   {
                     Boolean(this.state.stats.decommissionYearMin && this.state.stats.decommissionYearMax) ? (
                       <Range
@@ -459,4 +460,4 @@ class Filters extends React.Component {
   }
 }
 
-export default withApollo(Filters);
+export default withApollo(withTranslation(Filters));

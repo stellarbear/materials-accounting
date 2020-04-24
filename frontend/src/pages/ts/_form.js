@@ -9,6 +9,7 @@ import { withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 import { withRouter } from 'react-router-dom';
 import { omit } from '../../helpers/object';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 class TsForm extends React.Component {
   state = {
@@ -143,7 +144,7 @@ class TsForm extends React.Component {
                             name: `complectation-${idx}`,
                             'data-id': idx
                           }}
-                          placeholder='Тип ТС'
+                          placeholder={this.props.translation.get("Тип ТС")}
                           value={complectation[idx]}
                           onChange={this.complectationChange}
                         />
@@ -190,7 +191,7 @@ class TsForm extends React.Component {
           }
           <Label
             as='a'
-            content={complectation.length ? 'Добавить пункт' : 'Добавить комплектацию'}
+            content={'Добавить комплектацию'}
             basic
             color='teal'
             icon='plus square outline'
@@ -203,14 +204,14 @@ class TsForm extends React.Component {
 
   validate = async () => {
     const fieldNames = {
-      number: 'Номер',
-      unit: 'Подразделение',
-      tsType: 'Тип ТС',
-      tsPurpose: 'Цель использования',
-      infoType: 'Обрабатываемая информация',
-      receiptYear: 'Год получения',
-      table: 'Табель',
-      tableItem: 'Пункт табеля'
+      number: this.props.translation.get("Инв. номер"),
+      unit: this.props.translation.get("Подразделение"),
+      tsType: this.props.translation.get("Тип ТС"),
+      tsPurpose: this.props.translation.get("Назначение ТС"),
+      infoType: this.props.translation.get("Обрабатываемая информация"),
+      receiptYear: this.props.translation.get("Год получения"),
+      table: this.props.translation.get("Табель"),
+      tableItem: this.props.translation.get("Пункт табеля")
     }
     const requiredFields = [
       'number',
@@ -316,10 +317,10 @@ class TsForm extends React.Component {
               <Form.Input
                 required
                 error={this.state.errors.number && this.state.errors.number !== ''}
-                label='Инвентарный номер'
+                label={this.props.translation.get("Инв. номер")}
                 fluid icon='hashtag'
                 iconPosition='left'
-                placeholder='Инв. номер'
+                placeholder={this.props.translation.get("Инв. номер")}
                 name='number'
                 value={number}
                 onChange={this.handleChange}
@@ -327,10 +328,10 @@ class TsForm extends React.Component {
               />
               <Form.Input
                 error={this.state.errors.responsible && this.state.errors.responsible !== ''}
-                label='Ответственный за эксплуатацию'
+                label={this.props.translation.get("Отв. за эксплуатацию")}
                 fluid icon='user'
                 iconPosition='left'
-                placeholder='Ответственный за эксплуатацию'
+                placeholder={this.props.translation.get("Отв. за эксплуатацию")}
                 name='responsible'
                 value={responsible}
                 onChange={(event, data) => this.handleChange(event, { name: data.name, value: data.value.replace(/[^А-Яа-я.\s]/g, '') })}
@@ -344,8 +345,8 @@ class TsForm extends React.Component {
                 name='unit'
                 searchInput={{ id: 'unit' }}
                 control={DropdownUnits}
-                label={{ children: 'Подразделение', htmlFor: 'unit' }}
-                placeholder='Подразделение'
+                label={{ children: this.props.translation.get("Подразделение"), htmlFor: 'unit' }}
+                placeholder={this.props.translation.get("Подразделение")}
                 value={unit}
                 onChange={this.handleChange}
               />
@@ -355,8 +356,8 @@ class TsForm extends React.Component {
                 error={this.state.errors.tsType && this.state.errors.tsType !== ''}
                 searchInput={{ id: 'tstype' }}
                 control={DropdownTsTypes}
-                label={{ children: 'Тип ТС', htmlFor: 'tstype' }}
-                placeholder='Тип ТС'
+                label={{ children: this.props.translation.get("Тип ТС"), htmlFor: 'tstype' }}
+                placeholder={this.props.translation.get("Тип ТС")}
                 value={tsType}
                 // Custom change for complectation
                 onChange={(e, { value }) => {
@@ -372,8 +373,8 @@ class TsForm extends React.Component {
                 error={this.state.errors.tsPurpose && this.state.errors.tsPurpose !== ''}
                 searchInput={{ id: 'tspurpose' }}
                 control={DropdownTsPurposes}
-                label={{ children: 'Цель использования', htmlFor: 'tspurpose' }}
-                placeholder='Цель использования'
+                label={{ children: this.props.translation.get("Назначение ТС"), htmlFor: 'tspurpose' }}
+                placeholder={this.props.translation.get("Назначение ТС")}
                 value={tsPurpose}
                 onChange={this.handleChange}
               />
@@ -383,8 +384,8 @@ class TsForm extends React.Component {
                 error={this.state.errors.infoType && this.state.errors.infoType !== ''}
                 searchInput={{ id: 'infotype' }}
                 control={DropdownInfoTypes}
-                label={{ children: 'Обрабатываемая информация', htmlFor: 'infotype' }}
-                placeholder='Обрабатываемая информация'
+                label={{ children: this.props.translation.get("Обрабатываемая информация"), htmlFor: 'infotype' }}
+                placeholder={this.props.translation.get("Обрабатываемая информация")}
                 value={infoType}
                 onChange={this.handleChange}
               />
@@ -396,10 +397,10 @@ class TsForm extends React.Component {
                 name='receiptYear'
                 type='number'
                 min="1932"
-                label='Год получения'
+                label={this.props.translation.get("Год получения")}
                 fluid icon='calendar alternate outline'
                 iconPosition='left'
-                placeholder='Год получения'
+                placeholder={this.props.translation.get("Год получения")}
                 value={receiptYear || ''}
                 onChange={this.handleChange}
               />
@@ -407,10 +408,10 @@ class TsForm extends React.Component {
                 type='number'
                 name='commissioningYear'
                 min="1932"
-                label='Год ввода в эксплуатацию'
+                label={this.props.translation.get("Год ввода в эксплуатацию")}
                 fluid icon='calendar check outline'
                 iconPosition='left'
-                placeholder='Год ввода в эксплуатацию'
+                placeholder={this.props.translation.get("Год ввода в эксплуатацию")}
                 value={commissioningYear || ''}
                 onChange={this.handleChange}
               />
@@ -418,10 +419,10 @@ class TsForm extends React.Component {
                 type='number'
                 name='decommissionYear'
                 min="1932"
-                label='Год вывода из эксплуатации'
+                label={this.props.translation.get("Год вывода из эксплуатации")}
                 fluid icon='calendar times outline'
                 iconPosition='left'
-                placeholder='Год вывода из эксплуатации'
+                placeholder={this.props.translation.get("Год вывода из эксплуатации")}
                 value={decommissionYear || ''}
                 onChange={this.handleChange}
               />
@@ -431,7 +432,7 @@ class TsForm extends React.Component {
               label='Комментарий'
               fluid icon='terminal'
               iconPosition='left'
-              placeholder='Дополнительная информация о ТС'
+              placeholder='Дополнительная информация'
               name='comment'
               value={comment}
               onChange={this.handleChange}
@@ -510,4 +511,4 @@ class TsForm extends React.Component {
   }
 }
 
-export default withRouter(withApollo(TsForm));
+export default withRouter(withApollo(withTranslation(TsForm)));

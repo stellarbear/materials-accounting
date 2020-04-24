@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
 import Management from "../components/Management";
-//import info from '../../package.json';
+import { withTranslation } from '../components/TranslationWrapper';
 
 class Header extends Component {
   state = { activeItem: '' }
@@ -25,7 +25,7 @@ class Header extends Component {
     }
 
     const platform = process.env.REACT_APP_PLATFORM || "web"
-    const version = "1.2.3" // info.version
+    const version = "1.2.5" // info.version
 
     return (
       <Menu color='teal' attached className='navbar'>
@@ -47,7 +47,8 @@ class Header extends Component {
           onClick={this.handleItemClick}
         >
           <Icon name='desktop' />
-          Технические средства
+            {this.props.translation.get("Технические средства")}
+          
         </Menu.Item>
 
         <Menu.Item
@@ -70,40 +71,40 @@ class Header extends Component {
                   active={activeItem === 'units'}
                   onClick={this.handleItemClick}
                 >
-                  Список подразделений
-            </Dropdown.Item>
+                  {this.props.translation.get("Подразделение")}
+                </Dropdown.Item>
                 <Dropdown.Item
                   as={Link} to='/types'
                   name='types'
                   active={activeItem === 'types'}
                   onClick={this.handleItemClick}
                 >
-                  Типы ТС
-            </Dropdown.Item>
+                  {this.props.translation.get("Тип ТС")}
+                </Dropdown.Item>
                 <Dropdown.Item
                   as={Link} to='/purposes'
                   name='purposes'
                   active={activeItem === 'purposes'}
                   onClick={this.handleItemClick}
                 >
-                  Назначения ТС
-            </Dropdown.Item>
+                  {this.props.translation.get("Назначение ТС")}
+                </Dropdown.Item>
                 <Dropdown.Item
                   as={Link} to='/info_types'
                   name='info_types'
                   active={activeItem === 'info_types'}
                   onClick={this.handleItemClick}
                 >
-                  Обрабатываемая информация
-            </Dropdown.Item>
+                  {this.props.translation.get("Обрабатываемая информация")}
+                </Dropdown.Item>
                 <Dropdown.Item
                   as={Link} to='/tables'
                   name='tables'
                   active={activeItem === 'tables'}
                   onClick={this.handleItemClick}
                 >
-                  Табели
-            </Dropdown.Item>
+                  {this.props.translation.get("Табель")}
+                </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
 
@@ -147,4 +148,4 @@ class Header extends Component {
   }
 }
 
-export default withApollo(withRouter(Header));
+export default withApollo(withRouter(withTranslation(Header)));

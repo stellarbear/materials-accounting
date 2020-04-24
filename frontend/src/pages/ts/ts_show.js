@@ -7,6 +7,7 @@ import { Breadcrumb, Modal, Icon, Button, Grid } from 'semantic-ui-react';
 import { Redirect, Link } from 'react-router-dom';
 import Ts from '../../components/Ts';
 import { DELETE_TS_MUTATION } from './ts_index';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const TS_QUERY = gql`
   query getTS($id: String!) {
@@ -64,7 +65,7 @@ class TsShow extends React.Component {
           return (
             <React.Fragment>
               <Breadcrumb>
-                <Breadcrumb.Section><Link to='/'>Технические средства</Link></Breadcrumb.Section>
+                <Breadcrumb.Section><Link to='/'>{this.props.translation.get("Технические средства")}</Link></Breadcrumb.Section>
                 <Breadcrumb.Divider icon='right angle' />
                 <Breadcrumb.Section active>{`${ts.tsType.name} №${ts.number}`}</Breadcrumb.Section>
               </Breadcrumb>
@@ -84,9 +85,9 @@ class TsShow extends React.Component {
               </Grid>
 
               <Modal size='tiny' open={this.state.modal} onClose={this.close}>
-                <Modal.Header>Удалить ТС</Modal.Header>
+                <Modal.Header>Удалить запись</Modal.Header>
                 <Modal.Content>
-                  <p>Вы уверены, что хотите удалить ТС?</p>
+                  <p>Вы уверены, что хотите удалить запись?</p>
                   <p><b>{this.state.name}</b></p>
                 </Modal.Content>
                 <Modal.Actions>
@@ -121,4 +122,4 @@ class TsShow extends React.Component {
   }
 }
 
-export default TsShow;
+export default withTranslation(TsShow);

@@ -7,6 +7,7 @@ import gql from 'graphql-tag';
 import authError from '../../helpers/auth_error';
 import { TS_QUERY } from './ts_show'
 import Loader from '../../components/Loader';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const UPDATE_TS_MUTATION = gql`
   mutation updateTS(
@@ -86,7 +87,7 @@ class TsUpdate extends React.Component {
           return (
             <React.Fragment>
               <Breadcrumb>
-                <Breadcrumb.Section><Link to='/'>Технические средства</Link></Breadcrumb.Section>
+                <Breadcrumb.Section><Link to='/'>{this.props.translation.get("Технические средства")}</Link></Breadcrumb.Section>
                 <Breadcrumb.Divider icon='right angle' />
                 <Breadcrumb.Section active>{`${ts.tsType.name} №${ts.number}`}</Breadcrumb.Section>
               </Breadcrumb>
@@ -106,4 +107,4 @@ class TsUpdate extends React.Component {
   }
 }
 
-export default TsUpdate;
+export default withTranslation(TsUpdate);

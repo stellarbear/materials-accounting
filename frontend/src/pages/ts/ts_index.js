@@ -8,6 +8,7 @@ import Filters from '../../components/Filters';
 import Sort from '../../components/Sort';
 import { Redirect, Link } from 'react-router-dom';
 import authError from '../../helpers/auth_error';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const ALL_TS_QUERY = gql`
     query allTS($filter: SearchInput, $sort: SortInput, $skip: Int, $limit: Int) {
@@ -110,7 +111,7 @@ class TsList extends Component {
             <Grid.Column width={4}>
               {currentUser.role !== 'user' && (<Button as={Link} to='/ts/create' basic color='teal' style={{ width: "100%" }}>
                 <Icon name='plus' />
-                Добавить ТС
+                Добавить {this.props.translation.get("ТС")}
             </Button>)}
             </Grid.Column>
             <Grid.Column width={4} verticalAlign='middle'>
@@ -196,17 +197,17 @@ class TsList extends Component {
         </Grid>
 
         <Modal size='tiny' open={this.state.modal} onClose={this.close}>
-          <Modal.Header>Удалить ТС</Modal.Header>
+          <Modal.Header>Удалить запись</Modal.Header>
           <Modal.Content>
-            <p>Вы уверены, что хотите удалить ТС?</p>
+            <p>Вы уверены, что хотите удалить запись?</p>
             <p><b>{this.state.name}</b></p>
             <React.Fragment>
               <p>
-                Для подтверждения введите номер удаляемого ТС
+                Для подтверждения введите {this.props.translation.get("Инв. номер")}
               </p>
               <Input
                 error={Boolean(this.state.error)}
-                placeholder='Номер ТС'
+                placeholder={this.props.translation.get("Инв. номер")}
                 value={this.state.confirmTsNumber}
                 onChange={(e, { value }) => this.setState({ confirmTsNumber: value, error: '' })}
               />
@@ -234,7 +235,7 @@ class TsList extends Component {
                       const numberIndex = this.state.name.indexOf('№ ');
                       const deleteTsNumber = this.state.name.substring(numberIndex + '№ '.length);
                       if (this.state.confirmTsNumber.toLowerCase() !== deleteTsNumber) {
-                        this.setState({ error: 'Введенный номер ТС не совпадает с удаляемым!' })
+                        this.setState({ error: `${this.props.translation.get("Тип ТС")} не совпадает с удаляемым!` })
                       } else {
                         await deleteMutation();
                         await client.resetStore();
@@ -265,4 +266,4 @@ class TsList extends Component {
   }
 }
 
-export default TsList;
+export default withTranslation(TsList);

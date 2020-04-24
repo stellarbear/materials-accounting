@@ -6,6 +6,7 @@ import gql from 'graphql-tag';
 import { Query } from 'react-apollo';
 import authError from '../../helpers/auth_error';
 import Loader from '../../components/Loader';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 export const UPDATE_TABLE_MUTATION = gql`
   mutation updateTable($id: String!, $name: String!, $items: [TableItemInput!]){
@@ -33,7 +34,7 @@ export const TABLE_QUERY = gql`
   }
 `;
 
-export default class TableUpdate extends React.Component {
+class TableUpdate extends React.Component {
   render = () => {
     const { id } = this.props.match.params;
     return (
@@ -54,7 +55,7 @@ export default class TableUpdate extends React.Component {
           return (
             <React.Fragment >
               <Breadcrumb>
-                <Breadcrumb.Section><Link to='/tables'>Табели</Link></Breadcrumb.Section>
+                <Breadcrumb.Section><Link to='/tables'>{this.props.translation.get("Табель")}</Link></Breadcrumb.Section>
                 <Breadcrumb.Divider icon='right angle' />
                 <Breadcrumb.Section active>{table.name}</Breadcrumb.Section>
               </Breadcrumb>
@@ -78,3 +79,5 @@ export default class TableUpdate extends React.Component {
     );
   }
 }
+
+export default withTranslation(TableUpdate)
