@@ -101,7 +101,7 @@ class TsList extends Component {
   }
 
   render = () => {
-    document.title = 'Список ТС';
+    document.title = `Список ${this.props.translation.get("ТС")}`;
     const currentUser = JSON.parse(localStorage.getItem('user'));
     const { error } = this.state;
     return (

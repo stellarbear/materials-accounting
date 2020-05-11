@@ -3,6 +3,7 @@ import {Grid, Icon, Menu, Segment} from 'semantic-ui-react';
 import Filters from '../../components/Filters';
 import TsReport from './_ts_report';
 import TablesReport from './_tables_report';
+import { withTranslation } from '../../components/TranslationWrapper';
 
 class Report extends React.Component {
 
@@ -60,7 +61,7 @@ class Report extends React.Component {
                     onClick={this.handleMenuClick}
                 >
                   <Icon name='desktop'/>
-                  Отчет по ТС
+                  {`Отчет по '${this.props.translation.get("ТС")}'`}
                 </Menu.Item>
                 <Menu.Item
                     name='tablesReport'
@@ -78,4 +79,4 @@ class Report extends React.Component {
   }
 }
 
-export default Report;
+export default withTranslation(Report);

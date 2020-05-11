@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, Button, Segment, Icon, TransitionablePortal, Message } from 'semantic-ui-react';
+import { Form, Input, Button, Segment, Icon, TransitionablePortal, Message, TextArea, Modal } from 'semantic-ui-react';
 import { Mutation } from 'react-apollo';
 import { withRouter } from 'react-router-dom';
 import sortParagraph from '../../helpers/sort_paragraph';
@@ -7,6 +7,8 @@ import { withTranslation } from '../../components/TranslationWrapper';
 
 class TableForm extends React.Component {
   state = {
+    bulk: "",
+    showModal: false,
     id: null,
     name: '',
     tableItems: [{ name: '' }],
@@ -20,6 +22,38 @@ class TableForm extends React.Component {
     const tableItems = [...this.state.tableItems];
     tableItems[id].name = e.target.value;
     this.setState({ tableItems, error: '', showPortal: false });
+  }
+
+  onModalClose = () => {
+    this.setState({
+      showModal: false,
+    })
+  }
+
+  onTextAreaChange = (event) => {
+    let bulk = event.target.value;
+    bulk = bulk.split('\n').map(b => b.replace(/\s/g, ' ').replace(/  /g, ' ')).join('\n')
+    this.setState({ bulk })
+  }
+
+  onModalSubmit = () => {
+    let oldItems = this.state.tableItems.map(o => o.name);
+    let newItems = [];
+    this.state.bulk.split('\n').forEach(b => {
+      let name = b.trim();
+      if (!oldItems.includes(name) && name.length > 0) {
+        newItems.push({
+          name,
+        })
+      }
+    })
+
+    this.setState({
+      tableItems: [...this.state.tableItems, ...newItems],
+      error: '',
+      showPortal: false,
+      showModal: false,
+    })
   }
 
   addTableItem = () => {
@@ -137,14 +171,27 @@ class TableForm extends React.Component {
                       )
                     })
                   }
-                  <Button
-                    as='a'
-                    size='mini'
-                    onClick={this.addTableItem}
-                  >
-                    <Icon name='add' />
-                    Добавить {this.props.translation.get("Пункт табеля")}
+                  <div style={{ display: 'flex', justifyContent: "space-between" }}>
+                    <Button
+                      as='a'
+                      size='mini'
+                      onClick={this.addTableItem}
+                    >
+                      <Icon name='add' />
+                      Добавить {this.props.translation.get("Пункт табеля")}
+                    </Button>
+                    <Button
+                      as='a'
+                      size='mini'
+                      onClick={() => {
+                        this.setState({ showModal: true });
+                        console.log('yo')
+                      }}
+                    >
+                      <Icon name='add' />
+                      Добавить списком
                   </Button>
+                  </div>
                 </Segment>
 
                 <Form.Field
@@ -159,6 +206,20 @@ class TableForm extends React.Component {
             </Form>
           )}
         </Mutation>
+        <Modal size='small' open={this.state.showModal} onClose={() => this.onModalClose()}>
+          <Modal.Header>Вставьте список записей, разделенных переносом на новую строку</Modal.Header>
+          <Modal.Content>
+            <Form>
+              <TextArea placeholder={`1.1 Пункт\n1.2 Пункт`}
+                value={this.state.bulk}
+                onChange={this.onTextAreaChange} />
+            </Form>
+          </Modal.Content>
+          <Modal.Actions>
+            <Button onClick={() => this.onModalClose()}>Отмена</Button>
+            <Button onClick={() => this.onModalSubmit()} color='teal'>Добавить</Button>
+          </Modal.Actions>
+        </Modal>
         <TransitionablePortal
           open={showPortal}
           transition={{ animation: 'fly left', duration: 500 }}

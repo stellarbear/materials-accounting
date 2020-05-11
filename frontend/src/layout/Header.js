@@ -19,13 +19,14 @@ class Header extends Component {
   render = () => {
     const { activeItem } = this.state;
     const currentUser = JSON.parse(localStorage.getItem('user'));
+    const dictionaryFromStorage = localStorage.getItem('dictionaryAccess')
+    const dictionaryAccess = (dictionaryFromStorage == "true" ? true : false);
     let currentUsername = '';
     if (currentUser) {
       currentUsername = currentUser.username;
     }
 
-    const platform = process.env.REACT_APP_PLATFORM || "web"
-    const version = "1.2.5" // info.version
+    const version = "1.2.7" // info.version
 
     return (
       <Menu color='teal' attached className='navbar'>
@@ -47,8 +48,8 @@ class Header extends Component {
           onClick={this.handleItemClick}
         >
           <Icon name='desktop' />
-            {this.props.translation.get("Технические средства")}
-          
+          {this.props.translation.get("Технические средства")}
+
         </Menu.Item>
 
         <Menu.Item
@@ -61,56 +62,57 @@ class Header extends Component {
           Отчет
         </Menu.Item>
 
-        {["admin"].includes(currentUser.role) && platform === "web" && (
-          <React.Fragment>
-            <Dropdown item trigger={<span><Icon name='book' />Справочники</span>}>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  as={Link} to='/units'
-                  name='units'
-                  active={activeItem === 'units'}
-                  onClick={this.handleItemClick}
-                >
-                  {this.props.translation.get("Подразделение")}
-                </Dropdown.Item>
-                <Dropdown.Item
-                  as={Link} to='/types'
-                  name='types'
-                  active={activeItem === 'types'}
-                  onClick={this.handleItemClick}
-                >
-                  {this.props.translation.get("Тип ТС")}
-                </Dropdown.Item>
-                <Dropdown.Item
-                  as={Link} to='/purposes'
-                  name='purposes'
-                  active={activeItem === 'purposes'}
-                  onClick={this.handleItemClick}
-                >
-                  {this.props.translation.get("Назначение ТС")}
-                </Dropdown.Item>
-                <Dropdown.Item
-                  as={Link} to='/info_types'
-                  name='info_types'
-                  active={activeItem === 'info_types'}
-                  onClick={this.handleItemClick}
-                >
-                  {this.props.translation.get("Обрабатываемая информация")}
-                </Dropdown.Item>
-                <Dropdown.Item
-                  as={Link} to='/tables'
-                  name='tables'
-                  active={activeItem === 'tables'}
-                  onClick={this.handleItemClick}
-                >
-                  {this.props.translation.get("Табель")}
-                </Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+        {["admin"].includes(currentUser.role) &&
+          (dictionaryAccess) && (
+            <React.Fragment>
+              <Dropdown item trigger={<span><Icon name='book' />Справочники</span>}>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    as={Link} to='/units'
+                    name='units'
+                    active={activeItem === 'units'}
+                    onClick={this.handleItemClick}
+                  >
+                    {this.props.translation.get("Подразделение")}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as={Link} to='/types'
+                    name='types'
+                    active={activeItem === 'types'}
+                    onClick={this.handleItemClick}
+                  >
+                    {this.props.translation.get("Тип ТС")}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as={Link} to='/purposes'
+                    name='purposes'
+                    active={activeItem === 'purposes'}
+                    onClick={this.handleItemClick}
+                  >
+                    {this.props.translation.get("Назначение ТС")}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as={Link} to='/info_types'
+                    name='info_types'
+                    active={activeItem === 'info_types'}
+                    onClick={this.handleItemClick}
+                  >
+                    {this.props.translation.get("Обрабатываемая информация")}
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as={Link} to='/tables'
+                    name='tables'
+                    active={activeItem === 'tables'}
+                    onClick={this.handleItemClick}
+                  >
+                    {this.props.translation.get("Табель")}
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
 
 
-          </React.Fragment>
-        )
+            </React.Fragment>
+          )
         }
         {["admin"].includes(currentUser.role) && (
           <Menu.Item

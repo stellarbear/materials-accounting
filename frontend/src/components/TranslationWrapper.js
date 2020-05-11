@@ -84,7 +84,7 @@ const TranslationWrapper = ({ children }) => {
         <TranslationContext.Provider value={{
             keys, refresh,
             onImport, onUpdate, onExport, onSave, onDiscard,
-            get: (key) => translation[key] || key
+            get: (key) => translation[key] == undefined ? key : translation[key]
         }}>
             <React.Fragment>
                 {children}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TransitionablePortal, Message, Menu, Dropdown, Icon, Modal, Button, Loader, Checkbox } from 'semantic-ui-react';
+import { TransitionablePortal, Message, Menu, Dropdown, Icon, Modal, Button, Loader, Checkbox, Popup } from 'semantic-ui-react';
 import { is_parent } from '../helpers/tree';
 import { withRouter } from 'react-router';
 import { withApollo } from 'react-apollo';
@@ -7,6 +7,7 @@ import { Query } from 'react-apollo';
 import { fileDownload, fileUpload } from '../helpers/file';
 import gql from 'graphql-tag';
 import './../styles/Menu.css'
+import { withTranslation } from '../components/TranslationWrapper';
 
 const reloadTimeout = 1280
 
@@ -96,7 +97,7 @@ class Management extends Component {
         removeItem: "",
         isNegative: false,
         message: "",
-        importDBFileName: ""
+        importDBFileName: "",
     };
 
     showError = (message) => this.showMessage(message, true);
@@ -275,7 +276,7 @@ class Management extends Component {
             const response = JSON.parse(data.exportTS);
             const filename = `${response.time}-${unit.text}-ts.json`;
             fileDownload(data.exportTS, filename, 'text/plain');
-            this.showMessage(`база ${this.props.translation.get("ТС")} сохранена локально - ${filename}`);
+            this.showMessage(`База ${this.props.translation.get("ТС")} сохранена локально - ${filename}`);
         } catch (error) {
             this.showError(`Ошибка сервера - ${error}`);
         }
@@ -382,7 +383,12 @@ class Management extends Component {
     }
 
     render = () => {
-        const platform = process.env.REACT_APP_PLATFORM || "web"
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        const platform = process.env.REACT_APP_PLATFORM || "web";
+
+        const dictionaryFromStorage = localStorage.getItem('dictionaryAccess')
+        const dictionaryAccess = (dictionaryFromStorage == "true" ? true : false);
+
         const { state, onTSWipe, onConvert, onDBExport, onDictsExport, onTSImport, onTSExport, onUnitWipe, onDBImport, onUnitExport, onDBWipe, onDictsImport, onUnitImport, onModalClose, onModalSubmit } = this;
         const { showPortal, isNegative, message, importDBFileName, showMock, showModal, removeItem, exportPrivate } = state;
         return (
@@ -422,12 +428,17 @@ class Management extends Component {
                                 <Dropdown.Menu>
                                     <Dropdown.Header style={{ display: "flex", alignItems: "center", justifyContent: 'space-between' }}>
                                         Экспорт
-                                            <Checkbox
-                                            style={{ fontSize: 12, textTransform: "none" }}
-                                            label={'Внутренние'}
-                                            checked={exportPrivate}
-                                            onChange={() => this.setState({ exportPrivate: !exportPrivate })}
+                                        <Popup
+                                            trigger={<Checkbox
+                                                style={{ fontSize: 12, textTransform: "none" }}
+                                                label={'Внутренние'}
+                                                checked={exportPrivate}
+                                                onChange={() => this.setState({ exportPrivate: !exportPrivate })}
+                                            />}
+                                            content={'При экспорте записи с пометкой для внутреннего использования не экспортируются (поведение по умолчанию). Поставьте галочку, если хотите, чтобы указанные выше записи учитывались при экспорте.'}
+                                            position='bottom center'
                                         />
+
                                     </Dropdown.Header>
                                     {platform === "web" &&
                                         <React.Fragment>
@@ -452,7 +463,7 @@ class Management extends Component {
                                             </Dropdown.Item>
                                             <Dropdown.Item disabled={!!!options.length}>
                                                 <i aria-hidden="true" className="angle left icon"></i>
-                                                <span>ТС (без справочников и подразделений)</span>
+                                                <span>{`${this.props.translation.get("ТС")} (без справочников и подразделений)`}</span>
                                                 <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
                                                     <div style={{ marginRight: -120 }}>
                                                         {options.map(o =>
@@ -471,8 +482,10 @@ class Management extends Component {
                                         <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
                                         <span>База данных</span>
                                     </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Header>Импорт</Dropdown.Header>
+                                    <Dropdown.Header>
+                                        <hr style={{ marginBottom: 16, opacity: 0.4 }} />
+                                        Импорт
+                                    </Dropdown.Header>
                                     <Dropdown.Item as="label" htmlFor="importDicts">
                                         <React.Fragment>
                                             <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
@@ -495,7 +508,7 @@ class Management extends Component {
                                             </Dropdown.Item>
                                             <Dropdown.Item disabled={!!!options.length}>
                                                 <i aria-hidden="true" className="angle left icon"></i>
-                                                <span>ТС (без справочников и подразделений)</span>
+                                                <span>{`${this.props.translation.get("ТС")} (без справочников и подразделений)`}</span>
                                                 <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu" >
                                                     <div style={{ marginRight: -120 }}>
                                                         {options.map(o =>
@@ -522,11 +535,13 @@ class Management extends Component {
                                             />
                                         </React.Fragment>
                                     </Dropdown.Item>
-                                    <Dropdown.Divider />
-                                    <Dropdown.Header>Удаление</Dropdown.Header>
+                                    <Dropdown.Header>
+                                        <hr style={{ marginBottom: 16, opacity: 0.4 }} />
+                                        Удаление
+                                        </Dropdown.Header>
                                     <Dropdown.Item disabled={!!!options.length}>
                                         <i aria-hidden="true" className="angle left icon"></i>
-                                        <span>ТС выбранного подразделения</span>
+                                        <span>{`${this.props.translation.get("ТС")} выбранного подразделения`}</span>
                                         <Menu style={{ overflow: 'auto', maxHeight: 256 }} id="left-menu">
                                             <div style={{ marginRight: -120 }}>
                                                 {options.map(o =>
@@ -545,11 +560,11 @@ class Management extends Component {
                                     </Dropdown.Item>
                                     <Dropdown.Item onClick={() => this.setState({
                                         showModal: true,
-                                        removeItem: "все ТС",
+                                        removeItem: `все ${this.props.translation.get("ТС")}`,
                                         removeHandle: () => onTSWipe()
                                     })}>
                                         <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
-                                        <span>Все ТС</span>
+                                        <span>{`Все ${this.props.translation.get("ТС")}`}</span>
                                     </Dropdown.Item>
                                     <Dropdown.Item onClick={() => this.setState({
                                         showModal: true,
@@ -561,8 +576,10 @@ class Management extends Component {
                                     </Dropdown.Item>
                                     {platform === "web" &&
                                         <React.Fragment>
-                                            <Dropdown.Divider />
-                                            <Dropdown.Header>Конвертация</Dropdown.Header>
+                                            <Dropdown.Header>
+                                                <hr style={{ marginBottom: 16, opacity: 0.4 }} />
+                                                Конвертация
+                                            </Dropdown.Header>
                                             <Dropdown.Item as="label" htmlFor="convertDB">
                                                 <React.Fragment>
                                                     <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
@@ -592,12 +609,28 @@ class Management extends Component {
                                             </Dropdown.Item>
                                         </React.Fragment>
                                     }
-                                    <Dropdown.Divider />
-                                    <Dropdown.Header>Другое</Dropdown.Header>
+                                    <Dropdown.Header>
+                                        <hr style={{ marginBottom: 16, opacity: 0.4 }} />
+                                        Другое
+                                    </Dropdown.Header>
                                     <Dropdown.Item onClick={() => this.props.history.push(`/translation`)}>
                                         <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
                                         <span>Конфигурация интерфейса</span>
                                     </Dropdown.Item>
+                                    {["admin"].includes(currentUser.role) &&
+                                        <Dropdown.Item onClick={() => {
+                                            localStorage.setItem('dictionaryAccess', !dictionaryAccess);
+                                            this.showMessage(`Редактирование справочников ${!dictionaryAccess ? 'Разрешено' : 'Запрещено'}`);
+                                            setTimeout(() => window.location.reload(), reloadTimeout);
+                                        }}>
+                                            <i aria-hidden="true" className="angle left icon" style={{ visibility: "hidden" }}></i>
+                                            <span>{
+                                                dictionaryAccess == false
+                                                    ? 'Разблокировать справочники'
+                                                    : 'Заблокировать справочники'
+                                            }</span>
+                                        </Dropdown.Item>
+                                    }
                                 </Dropdown.Menu>
                             </Dropdown>)
                     }}
@@ -649,4 +682,4 @@ class Management extends Component {
     }
 }
 
-export default withApollo(withRouter(Management));
+export default withApollo(withRouter(withTranslation(Management)));
