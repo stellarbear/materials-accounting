@@ -32,10 +32,7 @@ export class Unit extends Base {
 		const relations = ["parent", "children"]
 		const currentUnit = await Unit.findOne({ where: { id }, relations });
 		const fullPath = [...(currentUnit.parent ? currentUnit.parent.fullPath : []), name].filter(p => p);
-
-		if (this.fullPath.length == 0) {
-			await this.extend({ fullPath });
-		}
+		await this.extend({ fullPath });
 
 		//	Update all children
 		await Promise.all(currentUnit.children.map(async child => await child.getFullPath()))

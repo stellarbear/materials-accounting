@@ -76,7 +76,7 @@ export class UnitResolver {
         }
 
         await unit.extend({ name, parent: parentUnit })
-        unit.getFullPath();
+        await unit.getFullPath();
 
         return unit;
     }

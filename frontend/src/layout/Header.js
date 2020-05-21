@@ -26,7 +26,7 @@ class Header extends Component {
       currentUsername = currentUser.username;
     }
 
-    const version = "1.2.7" // info.version
+    const version = "1.2.8" // info.version
 
     return (
       <Menu color='teal' attached className='navbar'>
