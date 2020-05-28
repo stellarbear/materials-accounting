@@ -42,7 +42,7 @@ class Report extends React.Component {
         <Grid>
           <Grid.Row>
             <Grid.Column width={4}>
-              <Segment color='teal'>
+              <Segment color='blue'>
                 <Filters
                     searchClick={(filter) => this.setState({filter})}
                     countUpdate={(count) => this.setState({count})}
@@ -54,7 +54,7 @@ class Report extends React.Component {
               {this.renderMainContent()}
             </Grid.Column>
             <Grid.Column width={2}>
-              <Menu vertical color='teal' icon='labeled'>
+              <Menu vertical color='blue' icon='labeled'>
                 <Menu.Item
                     name='tsReport'
                     active={activePanel === 'tsReport'}

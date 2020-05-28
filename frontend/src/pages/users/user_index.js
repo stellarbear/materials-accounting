@@ -102,7 +102,7 @@ class UserList extends React.Component {
                   <Grid.Column width={3}>
                   </Grid.Column>
                   <Grid.Column width={10}>
-                    <Table striped color='teal'>
+                    <Table striped color='blue'>
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell textAlign='center'>#</Table.HeaderCell>
@@ -111,7 +111,7 @@ class UserList extends React.Component {
                           <Table.HeaderCell>{this.props.translation.get("Подразделение")}</Table.HeaderCell>
                           <Table.HeaderCell>
                             <Button
-                              color='teal'
+                              color='blue'
                               floated='right'
                               icon='plus'
                               content='Добавить'

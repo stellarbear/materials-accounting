@@ -15,7 +15,7 @@ const Error = () => {
         </div>
         <div className='extra content'>
           <Link to='/'>
-            <button className='ui button teal'>На главную</button>
+            <button className='ui button blue'>На главную</button>
           </Link>
         </div>
       </div>

@@ -46,13 +46,13 @@ class UnitList extends React.Component {
                 <Grid.Column width={3}>
                 </Grid.Column>
                 <Grid.Column width={10}>
-                  <Table striped color='teal'>
+                  <Table striped color='blue'>
                     <Table.Header>
                       <Table.Row>
                         <Table.HeaderCell>
                           <Header as='h3' floated='left'>{this.props.translation.get("Подразделение")}</Header>
                           <Button
-                            color='teal'
+                            color='blue'
                             floated='right'
                             icon='plus'
                             content='Добавить'

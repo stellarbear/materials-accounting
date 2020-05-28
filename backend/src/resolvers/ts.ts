@@ -218,7 +218,7 @@ export class TsResolver {
         @Arg('commissioningYear', { nullable: true }) commissioningYear: string,
         @Arg('decommissionYear', { nullable: true }) decommissionYear: string,
         @Arg('table') table: string,
-        @Arg('tableItem') tableItem: string,
+        @Arg('tableItem', { nullable: true }) tableItem: string,
         @Arg('isBroken') isBroken: boolean,
         @Arg('isPrivate') isPrivate: boolean,
         @Arg('responsible') responsible: string,
@@ -266,11 +266,14 @@ export class TsResolver {
         @Arg('table') table: string,
         @Arg('responsible') responsible: string,
         @Arg('comment') comment: string,
-        @Arg('tableItem') tableItem: string,
+        @Arg('tableItem', { nullable: true }) tableItem: string,
         @Arg('isBroken') isBroken: boolean,
         @Arg('isPrivate') isPrivate: boolean,
         @Arg('complectation', type => [String]) complectation: [string]
     ): Promise<Ts> {
+        console.log(tableItem)
+        console.log(await di.tableItemRepo.getById(tableItem))
+        console.log(await di.tableItemRepo.getById(tableItem) ?? null)
         if (await di.tsRepo.checkIfExistAndNotTheSame({ number }, id)) {
             throw new ExtError({ code: "Запись с номером именем уже существует", field: 'number' })
         }
@@ -289,7 +292,7 @@ export class TsResolver {
             tsPurpose: await di.tsPurposeRepo.getById(tsPurpose),
             infoType: await di.infoTypeRepo.getById(infoType),
             table: await di.tableRepo.getById(table),
-            tableItem: await di.tableItemRepo.getById(tableItem),
+            tableItem: await di.tableItemRepo.getById(tableItem) ?? null,
             complectation: await di.tsTypeRepo.findByIds(complectation),
         })
 

@@ -12,13 +12,13 @@ const MODAL_CONTENT = {
     header: 'Добавить запись',
     buttonText: 'Добавить',
     icon: 'plus',
-    color: 'teal',
+    color: 'blue',
   },
   'UPDATE': {
     header: 'Изменить',
     buttonText: 'Сохранить',
     icon: 'save',
-    color: 'teal'
+    color: 'blue'
   },
   'DELETE': {
     header: 'Вы уверены, что хотите удалить?',
@@ -126,13 +126,13 @@ class TsTypeList extends React.Component {
                   <Grid.Column width={3}>
                   </Grid.Column>
                   <Grid.Column width={10}>
-                    <Table striped color='teal'>
+                    <Table striped color='blue'>
                       <Table.Header>
                         <Table.Row>
                           <Table.HeaderCell colSpan='4'>
                             <Header as='h3' floated='left'>{this.props.translation.get("Тип ТС")}</Header>
                             <Button
-                              color='teal'
+                              color='blue'
                               floated='right'
                               icon='plus'
                               content='Добавить'

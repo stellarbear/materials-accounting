@@ -183,7 +183,7 @@ class UserForm extends React.Component {
           <Form.Field style={{ position: 'relative' }} width={1}>
             <Button
               as='a'
-              color='teal'
+              color='blue'
               icon='cancel'
               style={{
                 position: 'absolute',
@@ -226,7 +226,7 @@ class UserForm extends React.Component {
         <Form.Field style={{ position: 'relative' }} width={1}>
           <Button
             as='a'
-            color='teal'
+            color='blue'
             icon='pencil'
             style={{
               position: 'absolute',
@@ -250,7 +250,7 @@ class UserForm extends React.Component {
           onSubmit={this.handleSubmit}
           error={Boolean(Object.keys(this.state.errors).length)}
         >
-          <Segment color='teal'>
+          <Segment color='blue'>
             <Form.Input
               label='Имя пользователя'
               name='username'
@@ -285,7 +285,7 @@ class UserForm extends React.Component {
             loading={loading}
             control={Button}
             content={isNewRecord ? 'Добавить' : 'Сохранить'}
-            color='teal'
+            color='blue'
             icon={isNewRecord ? 'add' : 'save'}
             type='submit'
           />

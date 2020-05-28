@@ -100,7 +100,7 @@ class TsReport extends React.Component {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>
-                    <Header as='h2' floated='left' style={{ marginBottom: 0 }} color='teal'>{`Отчет по '${this.props.translation.get("ТС")}'`}</Header>
+                    <Header as='h2' floated='left' style={{ marginBottom: 0 }} color='blue'>{`Отчет по '${this.props.translation.get("ТС")}'`}</Header>
                   </Table.HeaderCell>
                   <Table.HeaderCell textAlign='right'>
                     <Button basic toggle active={includeComplectation} size='tiny' onClick={
@@ -120,7 +120,7 @@ class TsReport extends React.Component {
                   <Table.HeaderCell textAlign='center'>
                     <Button
                       basic
-                      color='teal'
+                      color='blue'
                       icon='save'
                       content='Экспорт'
                       size='tiny'

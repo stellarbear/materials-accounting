@@ -79,7 +79,7 @@ class Translation extends React.Component {
                             onClick={() => this.onDiscard()} />
                         <Button
                             style={{ marginBottom: 16, marginRight: 12 }}
-                            color='teal'
+                            color='blue'
                             floated='right'
                             icon='save'
                             content='Сохранить изменения'
@@ -87,7 +87,7 @@ class Translation extends React.Component {
                             onClick={() => this.onSave()}
                         />
                     </div>
-                    <Table striped color='teal' style={{ maxWidth: 800 }}>
+                    <Table striped color='blue' style={{ maxWidth: 800 }}>
                         <Table.Header>
                             <Table.Row>
                                 <Table.HeaderCell colSpan='3'>

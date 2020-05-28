@@ -4,8 +4,8 @@
   "author": "kanmir",
   "homepage": "./",
   "build": {
-    "appId": "com.kanmir.phoenix",
-    "productName": "Phoenix",
+    "appId": "com.kanmir.phoenix-m",
+    "productName": "Phoenix-m",
     "copyright": "",
     "files": [
       "build/**/*",

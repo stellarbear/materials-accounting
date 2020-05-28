@@ -35,7 +35,7 @@ class LoginForm extends React.Component {
       <div className='login-form'>
         <Grid textAlign='center' verticalAlign='middle'>
           <Grid.Column>
-            <Header as='h2' color='teal' textAlign='center'>
+            <Header as='h2' color='blue' textAlign='center'>
               <Image src='./logo.png' />
             </Header>
             <Form size='large'>
@@ -71,7 +71,7 @@ class LoginForm extends React.Component {
                 >
                   {mutation => (
                     <React.Fragment>
-                      <Button color='teal' fluid size='large' onClick={() => {
+                      <Button color='blue' fluid size='large' onClick={() => {
                         if (username && password) {
                           mutation();
                         } else {

@@ -58,8 +58,8 @@ export class Ts extends Base {
     @ManyToOne(type => Table, { onDelete: 'CASCADE' })
     table: Table;
 
-    @Field()
-    @ManyToOne(type => TableItem, { onDelete: 'CASCADE' })
+    @Field({nullable: true})
+    @ManyToOne(type => TableItem, { nullable: true, onDelete: 'CASCADE' })
     tableItem: TableItem;
 
     @Field()

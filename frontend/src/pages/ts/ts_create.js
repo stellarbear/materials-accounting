@@ -16,7 +16,7 @@ export const CREATE_TS_MUTATION = gql`
     $commissioningYear: String,
     $decommissionYear: String,
     $table: String!,
-    $tableItem: String!,
+    $tableItem: String,
     $isPrivate: Boolean!,
     $isBroken: Boolean!,
     $responsible: String!,

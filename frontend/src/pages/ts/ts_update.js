@@ -23,7 +23,7 @@ export const UPDATE_TS_MUTATION = gql`
     $table: String!,
     $responsible: String!,
     $comment: String!,
-    $tableItem: String!,
+    $tableItem: String,
     $isBroken: Boolean!,
     $isPrivate: Boolean!,
     $complectation: [String!]!

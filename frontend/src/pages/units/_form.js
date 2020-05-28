@@ -55,7 +55,7 @@ class UnitForm extends React.Component {
             }}
               autoComplete='off'
             >
-              <Segment color='teal'>
+              <Segment color='blue'>
                 <Form.Group widths='equal'>
                   <Form.Field
                     id='form-input-control-first-name'
@@ -81,7 +81,7 @@ class UnitForm extends React.Component {
                   id='form-button-control-public'
                   control={Button}
                   content={isNewRecord ? 'Добавить' : 'Сохранить'}
-                  color='teal'
+                  color='blue'
                   icon={isNewRecord ? 'add' : 'save'}
                   type='submit'
                 />

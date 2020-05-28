@@ -157,7 +157,7 @@ class Filters extends React.Component {
           }}>
             <Icon name='filter' size="small" />
             <span>Фильтры</span>
-            <Icon color="teal" name='close' style={{ cursor: "pointer" }} onClick={() => this.updateState(defaultState)} size="small" />
+            <Icon color="blue" name='close' style={{ cursor: "pointer" }} onClick={() => this.updateState(defaultState)} size="small" />
           </div>
         </Header>
         <Form>
@@ -242,72 +242,6 @@ class Filters extends React.Component {
             value={this.state.infoTypes}
             onChange={(e, { value }) => this.updateState({ infoTypes: value })}
           />
-          <Form.Field className='radio-group'>
-            <label>Тип записи:</label>
-          </Form.Field>
-          <Form.Field className='radio-group'>
-            <Checkbox
-              radio
-              label='Любое'
-              name='checkboxRadioGroup'
-              value={undefined}
-              checked={this.state.isPrivate === undefined}
-              onChange={(e, { value }) => this.updateState({ isPrivate: value })}
-            />
-          </Form.Field>
-          <Form.Field className='radio-group'>
-            <Checkbox
-              radio
-              label='Публичный (экспортируемый)'
-              name='checkboxRadioGroup'
-              value={"false"}
-              checked={this.state.isPrivate === false}
-              onChange={(e, { value }) => value === "false" && this.updateState({ isPrivate: false })}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label='Для внутреннего использования'
-              name='checkboxRadioGroup'
-              value={"true"}
-              checked={this.state.isPrivate === true}
-              onChange={(e, { value }) => value === "true" && this.updateState({ isPrivate: true })}
-            />
-          </Form.Field>
-          <Form.Field className='radio-group'>
-            <label>Состояние:</label>
-          </Form.Field>
-          <Form.Field className='radio-group'>
-            <Checkbox
-              radio
-              label='Любое'
-              name='checkboxRadioGroup'
-              value={undefined}
-              checked={this.state.isBroken === undefined}
-              onChange={(e, { value }) => this.updateState({ isBroken: value })}
-            />
-          </Form.Field>
-          <Form.Field className='radio-group'>
-            <Checkbox
-              radio
-              label='Исправно'
-              name='checkboxRadioGroup'
-              value={"false"}
-              checked={this.state.isBroken === false}
-              onChange={(e, { value }) => value === "false" && this.updateState({ isBroken: false })}
-            />
-          </Form.Field>
-          <Form.Field>
-            <Checkbox
-              radio
-              label='Неисправно'
-              name='checkboxRadioGroup'
-              value={"true"}
-              checked={this.state.isBroken === true}
-              onChange={(e, { value }) => value === "true" && this.updateState({ isBroken: true })}
-            />
-          </Form.Field>
           <Form.Field>
             <label> {this.props.translation.get("Год получения")}:
               {
@@ -331,98 +265,6 @@ class Filters extends React.Component {
               }
             </label>
           </Form.Field>
-          <Form.Field>
-            <Checkbox
-              label={`Фильтр ${this.props.translation.get("Год ввода в эксплуатацию")}`}
-              checked={this.state.optionalFields.showCommissioningYear}
-              onChange={() => {
-                const optionalFields = { ...this.state.optionalFields };
-                optionalFields.showCommissioningYear = !optionalFields.showCommissioningYear;
-                const comYear = {};
-                if (optionalFields.showCommissioningYear) {
-                  comYear.start = this.state.stats.commissioningYearMin || 1932;
-                  comYear.end = this.state.stats.commissioningYearMax || new Date().getFullYear();
-                }
-                this.updateState({
-                  optionalFields,
-                  commissioningYear: comYear
-                });
-              }}
-            />
-          </Form.Field>
-          {
-            this.state.optionalFields.showCommissioningYear && (
-              <Form.Field>
-                <label> {this.props.translation.get("Год ввода в эксплуатацию")}:
-                  {
-                    Boolean(this.state.stats.commissioningYearMin && this.state.stats.commissioningYearMax) ? (
-                      <Range
-                        min={this.state.stats.commissioningYearMin}
-                        max={this.state.stats.commissioningYearMax}
-                        onChange={(e) => {
-                          const [min, max] = e;
-                          this.updateState({
-                            commissioningYear: {
-                              start: min,
-                              end: max
-                            }
-                          });
-                        }}
-                      />
-                    ) : (
-                        <Loader active inline size='mini' />
-                      )
-                  }
-                </label>
-              </Form.Field>
-            )
-          }
-          <Form.Field>
-            <Checkbox
-              label={`Фильтр ${this.props.translation.get("Год вывода из эксплуатации")}`}
-              checked={this.state.optionalFields.showDecommissionYear}
-              onChange={() => {
-                const optionalFields = { ...this.state.optionalFields };
-                optionalFields.showDecommissionYear = !optionalFields.showDecommissionYear;
-                const decomYear = {};
-                if (optionalFields.showDecommissionYear) {
-                  decomYear.start = this.state.stats.decommissionYearMin || 1932;
-                  decomYear.end = this.state.stats.decommissionYearMax || new Date().getFullYear();
-                }
-                this.updateState({
-                  optionalFields,
-                  decommissionYear: decomYear
-                });
-              }}
-            />
-          </Form.Field>
-          {
-            this.state.optionalFields.showDecommissionYear && (
-              <Form.Field>
-                <label> {this.props.translation.get("Год вывода из эксплуатации")}:
-                  {
-                    Boolean(this.state.stats.decommissionYearMin && this.state.stats.decommissionYearMax) ? (
-                      <Range
-                        min={this.state.stats.decommissionYearMin}
-                        max={this.state.stats.decommissionYearMax}
-                        onChange={(e) => {
-                          const [min, max] = e;
-                          this.updateState({
-                            decommissionYear: {
-                              start: min,
-                              end: max
-                            }
-                          });
-                        }}
-                      />
-                    ) : (
-                        <Loader active inline size='mini' />
-                      )
-                  }
-                </label>
-              </Form.Field>
-            )
-          }
 
           <DropdownTables
             values={{ table: this.state.table, tableItem: this.state.tableItem }}
@@ -437,7 +279,7 @@ class Filters extends React.Component {
               <Button
                 size='small'
                 basic
-                color='teal'
+                color='blue'
                 onClick={() => {
                   this.fetchCount();
                   this.props.searchClick({ ...omit(this.state, ['stats', 'optionalFields', 'timerId', 'autoSearch']) })

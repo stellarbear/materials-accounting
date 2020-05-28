@@ -60,7 +60,7 @@ class TsForm extends React.Component {
         commissioningYear: ts.commissioningYear,
         decommissionYear: ts.decommissionYear,
         table: ts.table.id,
-        tableItem: ts.tableItem.id,
+        tableItem: ts.tableItem ? ts.tableItem.id : '',
         isBroken: ts.isBroken,
         isPrivate: ts.isPrivate,
         responsible: ts.responsible,
@@ -193,7 +193,7 @@ class TsForm extends React.Component {
             as='a'
             content={'Добавить комплектацию'}
             basic
-            color='teal'
+            color='blue'
             icon='plus square outline'
             onClick={this.addComplectationItem}
           />
@@ -221,7 +221,6 @@ class TsForm extends React.Component {
       'infoType',
       'receiptYear',
       'table',
-      'tableItem'
     ];
     const errors = {};
     requiredFields.forEach((field) => {
@@ -312,7 +311,7 @@ class TsForm extends React.Component {
           error={Boolean(Object.keys(this.state.errors).length)}
           autoComplete='off'
         >
-          <Segment color='teal'>
+          <Segment color='blue'>
             <Form.Group widths='equal'>
               <Form.Input
                 required
@@ -404,28 +403,6 @@ class TsForm extends React.Component {
                 value={receiptYear || ''}
                 onChange={this.handleChange}
               />
-              <Form.Input
-                type='number'
-                name='commissioningYear'
-                min="1932"
-                label={this.props.translation.get("Год ввода в эксплуатацию")}
-                fluid icon='calendar check outline'
-                iconPosition='left'
-                placeholder={this.props.translation.get("Год ввода в эксплуатацию")}
-                value={commissioningYear || ''}
-                onChange={this.handleChange}
-              />
-              <Form.Input
-                type='number'
-                name='decommissionYear'
-                min="1932"
-                label={this.props.translation.get("Год вывода из эксплуатации")}
-                fluid icon='calendar times outline'
-                iconPosition='left'
-                placeholder={this.props.translation.get("Год вывода из эксплуатации")}
-                value={decommissionYear || ''}
-                onChange={this.handleChange}
-              />
             </Form.Group>
             <Form.Input
               error={this.state.errors.comment && this.state.errors.comment !== ''}
@@ -444,7 +421,6 @@ class TsForm extends React.Component {
                 errors={
                   {
                     table: this.state.errors.table && this.state.errors.table !== '',
-                    tableItem: this.state.errors.tableItem && this.state.errors.tableItem !== ''
                   }
                 }
                 values={{ table: table, tableItem: tableItem }}
@@ -455,22 +431,6 @@ class TsForm extends React.Component {
                 }}
               />
             </Form.Group>
-            <Form.Field>
-              <Checkbox
-                toggle
-                label={isBroken ? 'Неисправен' : 'Исправен'}
-                checked={!isBroken}
-                onChange={() => this.setState({ isBroken: !isBroken })}
-              />
-            </Form.Field>
-            <Form.Field>
-              <Checkbox
-                toggle
-                label={isPrivate ? 'Для внутреннего использования' : 'Публичный (экспортируемый)'}
-                checked={!isPrivate}
-                onChange={() => this.setState({ isPrivate: !isPrivate })}
-              />
-            </Form.Field>
 
             {
               this.renderComplectationForm()
@@ -481,7 +441,7 @@ class TsForm extends React.Component {
             loading={loading}
             control={Button}
             content={isNewRecord ? 'Добавить' : 'Сохранить'}
-            color='teal'
+            color='blue'
             icon={isNewRecord ? 'add' : 'save'}
             type='submit'
           />

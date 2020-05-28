@@ -55,7 +55,7 @@ class UnitShow extends React.Component {
           <Grid.Row >
             <Grid.Column width={3}></Grid.Column>
             <Grid.Column width={10}>
-              <Segment color='teal'>
+              <Segment color='blue'>
                 <Query query={UNIT_QUERY} variables={{ id }}>
                   {({ loading, error, data }) => {
                     if (loading) {
@@ -71,7 +71,7 @@ class UnitShow extends React.Component {
                     if (!unit) return <Redirect to='/404' />
                     return (
                       <React.Fragment>
-                        <Header color='teal'>
+                        <Header color='blue'>
                           {unit.fullPath.map((name, index, arr) => {
                             if (index < arr.length - 1) {
                               return (
@@ -84,7 +84,7 @@ class UnitShow extends React.Component {
                         <Grid.Row>
                           <Grid.Column>
                             <Link to={`/units/update/${id}`}>
-                              <Button color='teal'>
+                              <Button color='blue'>
                                 <Icon name='edit outline' />
                                 Изменить
                             </Button>

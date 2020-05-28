@@ -127,12 +127,12 @@ class TablesReport extends React.Component {
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>
-                    <Header as='h2' floated='left' style={{ marginBottom: 0 }} color='teal'>Отчет по табелям</Header>
+                    <Header as='h2' floated='left' style={{ marginBottom: 0 }} color='blue'>Отчет по табелям</Header>
                   </Table.HeaderCell>
                   <Table.HeaderCell textAlign='center'>
                     <Button
                       basic
-                      color='teal'
+                      color='blue'
                       icon='save'
                       content='Экспорт'
                       size='tiny'

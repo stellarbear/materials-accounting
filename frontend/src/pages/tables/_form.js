@@ -133,7 +133,7 @@ class TableForm extends React.Component {
             }}
               autoComplete='off'
             >
-              <Segment color='teal'>
+              <Segment color='blue'>
                 <Form.Field
                   id='table-name'
                   control={Input}
@@ -198,7 +198,7 @@ class TableForm extends React.Component {
                   id='form-button-control-public'
                   control={Button}
                   content={isNewRecord ? 'Добавить' : 'Сохранить'}
-                  color='teal'
+                  color='blue'
                   icon={isNewRecord ? 'add' : 'save'}
                   type='submit'
                 />
@@ -217,7 +217,7 @@ class TableForm extends React.Component {
           </Modal.Content>
           <Modal.Actions>
             <Button onClick={() => this.onModalClose()}>Отмена</Button>
-            <Button onClick={() => this.onModalSubmit()} color='teal'>Добавить</Button>
+            <Button onClick={() => this.onModalSubmit()} color='blue'>Добавить</Button>
           </Modal.Actions>
         </Modal>
         <TransitionablePortal

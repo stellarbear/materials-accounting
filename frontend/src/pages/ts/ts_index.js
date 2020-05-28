@@ -109,7 +109,7 @@ class TsList extends Component {
         <Grid className='ts_page'>
           <Grid.Row className='ts__sort'>
             <Grid.Column width={4}>
-              {currentUser.role !== 'user' && (<Button as={Link} to='/ts/create' basic color='teal' style={{ width: "100%" }}>
+              {currentUser.role !== 'user' && (<Button as={Link} to='/ts/create' basic color='blue' style={{ width: "100%" }}>
                 <Icon name='plus' />
                 Добавить {this.props.translation.get("ТС")}
             </Button>)}
@@ -134,7 +134,7 @@ class TsList extends Component {
 
           <Grid.Row>
             <Grid.Column width={4}>
-              <Segment color='teal'>
+              <Segment color='blue'>
                 <Filters
                   searchClick={(filter) => this.setState({ filter, activePage: 1 })}
                   countUpdate={(count) => this.setState({ count })}

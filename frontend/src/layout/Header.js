@@ -29,7 +29,7 @@ class Header extends Component {
     const version = "1.2.8" // info.version
 
     return (
-      <Menu color='teal' attached className='navbar'>
+      <Menu color='blue' attached className='navbar'>
         <Menu.Item
           header as={Link} to='/'
           name='ts'

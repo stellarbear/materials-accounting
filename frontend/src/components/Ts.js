@@ -13,7 +13,7 @@ class Ts extends Component {
         <b>{this.props.translation.get("Табель")}: </b>
         <StringLimit
           limit={150}
-          text={`${ts.table.name}, ${ts.tableItem.name}`}
+          text={`${ts.table.name}, ${ts.tableItem ? ts.tableItem.name : '-'}`}
         />
         <br />
         <b>{this.props.translation.get("Отв. за эксплуатацию")}: </b>
@@ -31,7 +31,7 @@ class Ts extends Component {
               <React.Fragment>
                 <b>Комментарий: </b>
                 <Popup
-                  trigger={<Icon name='comment' color='teal' />}
+                  trigger={<Icon name='comment' color='blue' />}
                   content={ts.comment}
                   wide='very'
                   position='bottom left'
@@ -62,21 +62,10 @@ class Ts extends Component {
     const unitFullName = unitFullPath.reverse().join(' ');
     const currentUser = JSON.parse(localStorage.getItem('user'));
     return (
-      <Card fluid className='ts' color={ts.isBroken ? 'red' : 'teal'}>
+      <Card fluid className='ts' color={'blue'}>
         <Card.Content>
           <Card.Header floated='left'>
-            <Link to={`/ts/${ts.id}`}>{ts.tsType.name}</Link>
-            <Popup trigger={
-              <Icon
-                color={ts.isBroken ? 'red' : 'teal'}
-                name={ts.isBroken ? 'times circle outline' : 'check circle outline'}
-                inverted={ts.isBroken}
-                size='small'
-                style={{ marginLeft: '5px' }}
-              />
-            }
-              content={ts.isBroken ? 'Неисправен' : 'Исправен'}
-            />
+            <Link to={`/ts/${ts.id}`}>{`№ ${ts.number}`}</Link>
             <Header as='h3' floated='right'>
               <Label basic color='blue'>
                 {unitFullName}
@@ -86,7 +75,7 @@ class Ts extends Component {
               </Label>
             </Header>
           </Card.Header>
-          <Card.Meta><b>№ {ts.number}</b></Card.Meta>
+          <Card.Meta><b>{ts.tsType.name}</b></Card.Meta>
           <Grid>
             <Grid.Row columns={2}>
               <Grid.Column>
@@ -145,7 +134,7 @@ class Ts extends Component {
                 basic
                 as={Link}
                 to={`/ts/update/${ts.id}`}
-                color='teal'
+                color='blue'
                 icon
                 labelPosition='left'>
                 <Icon name='edit outline' />
@@ -156,28 +145,6 @@ class Ts extends Component {
                 Удалить
               <Icon name='trash alternate outline' />
               </Button>
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: "flex-end" }}>
-              {
-                ts.isBroken &&
-                <div style={{ display: 'flex' }}>
-                  Неисправен
-                <div style={{
-                    minWidth: 14, minHeight: 14, margin: "4px 8px", borderRadius: 4,
-                    backgroundColor: "#f44336"
-                  }}></div>
-                </div>
-              }
-              {
-                ts.isPrivate &&
-                <div style={{ display: 'flex' }}>
-                  Для внутреннего использования
-                <div style={{
-                    minWidth: 14, minHeight: 14, margin: "4px 8px", borderRadius: 4,
-                    backgroundColor: "#009688"
-                  }}></div>
-                </div>
-              }
             </div>
           </div>
         </Card.Content>)

@@ -9,7 +9,7 @@ const TablePlaceholder = (props) => {
         <Grid.Column width={3}>
         </Grid.Column>
         <Grid.Column width={10}>
-          <Table striped color='teal'>
+          <Table striped color='blue'>
             <Table.Header>
               <Table.Row>
                 <Table.HeaderCell colSpan='3'>

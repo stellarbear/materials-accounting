@@ -52,6 +52,7 @@ class DropdownTables extends React.Component {
   tableItemChange = (e, { value }) => {
     this.setState({ tableItem: value });
     this.props.onChange(this.state.table, value);
+    console.log(value)
   }
 
   componentDidMount = async () => {
@@ -122,7 +123,7 @@ class DropdownTables extends React.Component {
           value={this.state.table}
         />
         {((this.props.filters && this.state.table) || !this.props.filters) && (<Form.Field
-          required={required}
+          required={false}
           error={errors && errors.tableItem}
           clearable
           disabled={!this.state.table}
