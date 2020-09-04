@@ -61,7 +61,7 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
     "sqlite3": "^4.0.1",
-    "type-graphql": "^0.17.5",
+    "type-graphql": "^0.17.6",
     "typeorm": "^0.2.18"
   }
 }
