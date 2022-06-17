@@ -25,7 +25,7 @@
     "class-sanitizer": "^0.0.5",
     "class-validator": "^0.10.0",
     "cookie-parser": "^1.4.4",
-    "electron": "^5.0.6",
+    "electron": "^15.5.5",
     "electron-builder": "^21.2.0",
     "electron-is-dev": "^1.1.0",
     "express": "^4.17.1",
