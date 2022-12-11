@@ -28,7 +28,7 @@
     "electron": "^5.0.6",
     "electron-builder": "^21.2.0",
     "electron-is-dev": "^1.1.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "graphql": "^14.1.1",
     "graphql-transport-electron": "^1.0.1",
     "jsonwebtoken": "^8.5.1",
