@@ -23,7 +23,7 @@
     "apollo-server": "^2.3.3",
     "bcryptjs": "^2.4.3",
     "class-sanitizer": "^0.0.5",
-    "class-validator": "^0.10.0",
+    "class-validator": "^0.14.0",
     "cookie-parser": "^1.4.4",
     "electron": "^5.0.6",
     "electron-builder": "^21.2.0",
